@@ -59,4 +59,37 @@ CyberPrivacy-Training-Lab/
 ├── Dockerfile        # Build Docker
 └── README.md
 ```
+### 🕵️‍♂️ Missions du Lab
 
+Le Lab propose plusieurs missions interactives permettant d’apprendre en s’amusant :
+
+- **Mission 1 — Identité numérique & DCP**  
+  Explorez un faux site de collecte de données et identifiez les données à caractère personnel, les excès de collecte et les risques associés.
+
+- **Mission 2 — Bonnes pratiques & sécurité**  
+  Analysez un intranet fictif rempli de mauvaises pratiques : mots de passe, accès, sauvegardes, et proposez des mesures correctives.
+
+- **Mission 3 — Fuite de données**  
+  Faites face à une fuite de données simulée : fichiers exposés, e-mails suspects, données sensibles. Analysez, qualifiez et proposez les actions RGPD.
+
+- **Mission 4 — Cyber-crise & gouvernance**  
+  Vivez une mini cyber-crise : prenez des décisions, priorisez les actions, et voyez l’impact sur la conformité et la réputation.
+
+- **Mission 5 — Contrat de sous-traitance (DPA)**  
+  Analysez un contrat de sous-traitance fictif et identifiez les clauses manquantes ou insuffisantes au regard du RGPD.
+
+- **Mission 6 — Privacy by Design**  
+  Analysez une interface volontairement mal conçue et identifiez les violations des principes de Privacy by Design et by Default.
+
+- **Mission 7 —  Dark Patterns & consentement**  
+  Identifiez les manipulations UX (dark patterns) qui biaisent le consentement ou la gestion des cookies sur un site fictif.
+  
+- **Mission 8 — Registre des traitements **  
+  Analysez un registre de traitements fictif, repérez les incohérences et proposez des corrections pour le rendre conforme.
+  
+- **Mission 9  — DPIA (Analyse d’impact)**  
+  Évaluez un projet à risque (vidéosurveillance, scoring, géolocalisation) et déterminez si une DPIA est nécessaire, ainsi que les mesures à prévoir.
+  
+- **Mission 10  — Droits des personnes**  
+  Simulez la gestion d’une demande d’accès, de rectification ou d’effacement, et identifiez les bonnes pratiques de réponse.
+---
