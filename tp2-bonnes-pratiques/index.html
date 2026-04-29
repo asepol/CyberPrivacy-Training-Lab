@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission 2 – Bonnes pratiques & RGPD</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 16px 28px;
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .tag {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+    main {
+      padding: 20px 28px 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+      flex: 1;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 20px;
+      margin-top: 16px;
+    }
+    .card {
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      padding: 14px 16px;
+      font-size: 0.88rem;
+    }
+    pre {
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid #111827;
+      padding: 10px;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+    .risk {
+      color: #f97373;
+      font-size: 0.8rem;
+    }
+    .list {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      padding-left: 18px;
+    }
+    .list li {
+      margin-bottom: 4px;
+    }
+    .highlight {
+      color: #facc15;
+      font-weight: 600;
+    }
+    footer {
+      padding: 10px 28px 14px;
+      font-size: 0.78rem;
+      color: #6b7280;
+      border-top: 1px solid #1f2937;
+      background: #020617;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="title">Mission 2 – Bonnes pratiques & sécurité des données</div>
+    <div class="tag">Objectif : Identifier les mauvaises pratiques et proposer des mesures correctives</div>
+  </div>
+  <div class="tag">Durée estimée : 20 min</div>
+</header>
+
+<main>
+  <h2>Scénario</h2>
+  <p>
+    Vous accédez à un intranet fictif d’entreprise. Plusieurs éléments techniques et organisationnels
+    posent problème au regard du RGPD et de la sécurité des données.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Extrait de code – Authentification</h3>
+      <pre>
+const db = {
+  adminUser: "admin",
+  adminPassword: "Admin123!",
+  backupPassword: "Backup2024!",
+};
+
+function login(user, pass) {
+  if (user === db.adminUser && pass === db.adminPassword) {
+    console.log("Connexion réussie, rôle : ADMIN");
+    // TODO: ajouter des logs plus détaillés avec IP, mot de passe, etc.
+  }
+}
+      </pre>
+      <p class="risk">
+        ➤ Mots de passe en clair dans le code, réutilisation probable, absence de gestion de rôles fine.
+      </p>
+
+      <h3>Dossier accessible publiquement</h3>
+      <p>
+        Un dossier <span class="highlight">/backup/</span> est accessible depuis le navigateur :
+      </p>
+      <pre>
+/backup/users_full_export.csv
+/backup/hr_salaries_2023.xlsx
+/backup/it_admin_passwords.txt
+      </pre>
+      <p class="risk">
+        ➤ Sauvegardes non protégées, données potentiellement sensibles exposées.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Votre mission</h3>
+      <ul class="list">
+        <li>Listez toutes les <span class="highlight">mauvaises pratiques</span> visibles dans ces extraits.</li>
+        <li>Proposez des <span class="highlight">mesures correctives</span> (techniques et organisationnelles).</li>
+        <li>Reliez ces mauvaises pratiques aux <span class="highlight">obligations RGPD</span> (sécurité, confidentialité, intégrité).</li>
+        <li>Identifiez les risques pour les personnes concernées (exposition de données, usurpation, etc.).</li>
+      </ul>
+      <p style="margin-top:10px;">
+        À la fin de la mission, vous devez être capable de :
+      </p>
+      <ul class="list">
+        <li>Expliquer pourquoi la sécurité est un pilier du RGPD.</li>
+        <li>Donner des exemples concrets de mesures de sécurité adaptées.</li>
+        <li>Relier les risques techniques à des impacts humains et juridiques.</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Mission 2 – Environnement fictif. Les exemples sont volontairement caricaturaux pour faciliter l’analyse.
+</footer>
+</body>
+</html>

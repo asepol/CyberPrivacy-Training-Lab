@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>RGPD ACADEMY – Portail</title>
+  <style>
+    :root {
+      --bg: #050816;
+      --card: #0b1020;
+      --accent: #4f46e5;
+      --accent-soft: #6366f1;
+      --accent-2: #22c55e;
+      --danger: #f97373;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --locked: #4b5563;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 45%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to right, rgba(15,23,42,0.9), rgba(15,23,42,0.6));
+      border-bottom: 1px solid rgba(148,163,184,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo span.icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #facc15, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .tagline { font-size: 0.9rem; color: var(--muted); }
+    .xp-badge {
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(129,140,248,0.6);
+      padding: 8px 16px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+    .xp-badge span.level { font-weight: 700; color: #a5b4fc; }
+    main {
+      flex: 1;
+      padding: 30px 40px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+      gap: 30px;
+      margin-bottom: 30px;
+      align-items: center;
+    }
+    .hero-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .hero-title span.highlight {
+      background: linear-gradient(to right, #a855f7, #22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 520px;
+      margin-bottom: 18px;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .hero-tag {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      color: var(--muted);
+    }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn-primary {
+      background: linear-gradient(to right, var(--accent), var(--accent-soft));
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(79,70,229,0.5);
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 40px rgba(79,70,229,0.7);
+    }
+    .btn-ghost {
+      background: transparent;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      color: var(--muted);
+      padding: 9px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .hero-right {
+      background: radial-gradient(circle at top, rgba(56,189,248,0.2), transparent 60%),
+                  radial-gradient(circle at bottom, rgba(129,140,248,0.2), transparent 60%);
+      border-radius: 24px;
+      border: 1px solid rgba(148,163,184,0.4);
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-right h3 {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .progress-wrapper { margin-bottom: 12px; }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      overflow: hidden;
+    }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(to right, #22c55e, #a3e635);
+      box-shadow: 0 0 12px rgba(34,197,94,0.8);
+      transition: width 0.25s ease;
+    }
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 0.78rem;
+    }
+    .badge {
+      background: rgba(15,23,42,0.9);
+      border-radius: 999px;
+      padding: 6px 10px;
+      border: 1px solid rgba(148,163,184,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .badge span.icon { font-size: 0.9rem; flex-shrink: 0; }
+    .badge span { display: inline-block; overflow: hidden; text-overflow: ellipsis; }
+    .badge.active {
+      border-color: rgba(34,197,94,0.8);
+      color: #bbf7d0;
+      background: radial-gradient(circle at top left, rgba(34,197,94,0.25), rgba(15,23,42,0.95));
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-2);
+    }
+    .grid-modules {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 10px;
+    }
+    .module-card {
+      background: rgba(15,23,42,0.95);
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(51,65,85,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+    .module-card.locked {
+      opacity: 0.55;
+      border-style: dashed;
+      border-color: rgba(75,85,99,0.9);
+    }
+    .module-card.locked .module-title::before { content: "🔒 "; }
+    .module-card.locked .btn-quiz { opacity: 0.7; cursor: not-allowed; }
+    .module-card.completed {
+      border-color: rgba(34,197,94,0.9);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.4);
+    }
+    .module-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .module-title { font-size: 0.95rem; font-weight: 600; }
+    .module-tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      color: var(--muted);
+    }
+    .module-body { font-size: 0.8rem; color: var(--muted); }
+    .module-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .module-footer span.mission { color: #a5b4fc; font-weight: 500; }
+    .module-footer a,
+    .module-footer button.link-like {
+      font-size: 0.78rem;
+      text-decoration: none;
+      color: #22c55e;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .quiz {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(55,65,81,0.8);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .quiz-question { margin-bottom: 6px; }
+    .quiz-options label {
+      display: block;
+      margin-bottom: 3px;
+      cursor: pointer;
+    }
+    .quiz-actions {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-quiz {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+    .quiz-status { font-size: 0.75rem; }
+    .quiz-status.ok { color: #4ade80; }
+    .quiz-status.ko { color: #f97373; }
+    footer {
+      padding: 12px 40px 18px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30,64,175,0.4);
+      background: radial-gradient(circle at bottom, rgba(30,64,175,0.3), rgba(15,23,42,0.98));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-links { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* TP container */
+    #tp-container {
+      display: none;
+      max-width: 900px;
+      margin: 20px auto 40px;
+      background: rgba(15,23,42,0.98);
+      border-radius: 18px;
+      border: 1px solid rgba(51,65,85,0.9);
+      padding: 20px;
+    }
+    #tp-container h1 { font-size: 1.4rem; margin-bottom: 10px; }
+    #tp-container .tp-box {
+      background: #0b1020;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(75,85,99,0.9);
+      font-size: 0.9rem;
+    }
+    #tp-container pre {
+      background: #020617;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+    }
+    #tp-container .correct { color: #4ade80; font-weight: 600; }
+    #btn-back {
+      margin-bottom: 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    @media (max-width: 900px) {
+      main { padding: 20px; }
+      header { padding: 14px 20px; }
+      .hero { grid-template-columns: minmax(0, 1fr); }
+      .badge-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="logo">
+      <span class="icon">🛡️</span>
+      <span>RGPD ACADEMY</span>
+    </div>
+    <div class="tagline">Plateforme ludique de sensibilisation aux données personnelles & à la gouvernance</div>
+  </div>
+  <div class="xp-badge">
+    <span>XP :</span>
+    <span class="level" id="xp-level">0 / 1000</span>
+    <span>• Niveau : <span id="xp-rank">Débutant</span></span>
+  </div>
+</header>
+
+<main>
+  <!-- PORTAIL -->
+  <section id="portal">
+    <section class="hero">
+      <div>
+        <h1 class="hero-title">
+          Devenez le <span class="highlight">gardien des données</span> de votre organisation.
+        </h1>
+        <p class="hero-sub">
+          Explorez 10 missions interactives pour comprendre l’identité numérique, les données à caractère personnel,
+          les bonnes pratiques RGPD, la gestion de crise, la sous-traitance, le registre, la DPIA et les droits des personnes.
+        </p>
+        <div class="hero-tags">
+          <span class="hero-tag">🎯 Objectifs : Comprendre, Identifier, Réagir</span>
+          <span class="hero-tag">🧩 Format : TP web gamifiés</span>
+          <span class="hero-tag">⚖️ Thèmes : RGPD, CNIL, DCP, Fuite, DPA, DPIA, Droits</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#modules" class="btn-primary">
+            Commencer la campagne
+            <span>▶</span>
+          </a>
+          <button class="btn-ghost" type="button">
+            Voir les objectifs pédagogiques
+          </button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <h3>Progression de la formation</h3>
+        <div class="progress-wrapper">
+          <div class="progress-label">
+            <span>Progression globale</span>
+            <span id="progress-label">0 / 10 missions</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+        <div class="badge-grid">
+          <div class="badge" data-badge="context"><span class="icon">🧠</span><span>Contexte & lois</span></div>
+          <div class="badge" data-badge="security"><span class="icon">🛡️</span><span>Sécurité & pratiques</span></div>
+          <div class="badge" data-badge="breach"><span class="icon">💥</span><span>Fuite de données</span></div>
+          <div class="badge" data-badge="crisis"><span class="icon">🚨</span><span>Gestion de crise</span></div>
+          <div class="badge" data-badge="dpa"><span class="icon">📑</span><span>Sous-traitance (DPA)</span></div>
+          <div class="badge" data-badge="pbd"><span class="icon">🧩</span><span>Privacy by Design</span></div>
+          <div class="badge" data-badge="dark"><span class="icon">🕵️</span><span>Dark patterns</span></div>
+          <div class="badge" data-badge="register"><span class="icon">📘</span><span>Registre</span></div>
+          <div class="badge" data-badge="dpia"><span class="icon">📊</span><span>DPIA</span></div>
+          <div class="badge" data-badge="ready"><span class="icon">🏅</span><span>RGPD Ready</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modules">
+      <div class="section-title">
+        <span class="dot"></span>
+        <span>Missions disponibles</span>
+      </div>
+      <div class="grid-modules">
+
+        <!-- Mission 1 -->
+        <article class="module-card" data-module="1">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 1 – Identité numérique & DCP</div>
+              <div class="module-body">
+                Explorez un faux site de collecte de données et identifiez les données à caractère personnel,
+                les excès de collecte et les risques associés.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 🌱</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Comprendre ce qu’est une donnée personnelle</span>
+            <a href="http://localhost:9001" target="_blank">Ouvrir le TP →</a>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Une donnée à caractère personnel, c’est :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1-1" value="a"> Une donnée purement technique sans lien avec une personne.</label>
+              <label><input type="radio" name="q1-1" value="b"> Toute information se rapportant à une personne identifiée ou identifiable.</label>
+              <label><input type="radio" name="q1-1" value="c"> Un document papier uniquement.</label>
+            </div>
+            <div class="quiz-question">
+              2. Le numéro de sécurité sociale est :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1-2" value="a"> Une donnée banale.</label>
+              <label><input type="radio" name="q1-2" value="b"> Une donnée sensible ou fortement encadrée.</label>
+              <label><input type="radio" name="q1-2" value="c"> Une donnée anonyme.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="1">Valider la mission</button>
+              <span class="quiz-status" id="status-1"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 2 -->
+        <article class="module-card" data-module="2">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 2 – Bonnes pratiques & sécurité</div>
+              <div class="module-body">
+                Analysez un intranet fictif rempli de mauvaises pratiques : mots de passe, accès, sauvegardes,
+                et proposez des mesures correctives.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 🧩</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Identifier les mauvaises pratiques</span>
+            <a href="http://localhost:9002" target="_blank">Ouvrir le TP →</a>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Stocker des mots de passe en clair dans le code source :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q2-1" value="a"> Est acceptable si le dépôt est privé.</label>
+              <label><input type="radio" name="q2-1" value="b"> Est une très mauvaise pratique de sécurité.</label>
+              <label><input type="radio" name="q2-1" value="c"> Est recommandé pour aller plus vite.</label>
+            </div>
+            <div class="quiz-question">
+              2. L’obligation de sécurité dans le RGPD implique :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q2-2" value="a"> De prendre des mesures techniques et organisationnelles adaptées.</label>
+              <label><input type="radio" name="q2-2" value="b"> De ne rien faire tant qu’il n’y a pas d’incident.</label>
+              <label><input type="radio" name="q2-2" value="c"> De déléguer tout à un prestataire sans contrôle.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="2">Valider la mission</button>
+              <span class="quiz-status" id="status-2"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 3 -->
+        <article class="module-card" data-module="3">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 3 – Fuite de données</div>
+              <div class="module-body">
+                Faites face à une fuite de données simulée : fichiers exposés, e-mails suspects, données sensibles.
+                Analysez, qualifiez et proposez les actions RGPD.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : ⚠️</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Savoir réagir à une fuite</span>
+            <a href="http://localhost:9003" target="_blank">Ouvrir le TP →</a>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. En cas de violation de données, la notification à la CNIL doit en principe être faite :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3-1" value="a"> Dans un délai maximal de 72 heures après en avoir eu connaissance.</label>
+              <label><input type="radio" name="q3-1" value="b"> Un an après, le temps d’enquêter.</label>
+              <label><input type="radio" name="q3-1" value="c"> Jamais, ce n’est pas obligatoire.</label>
+            </div>
+            <div class="quiz-question">
+              2. Informer les personnes concernées est nécessaire lorsque :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3-2" value="a"> Le risque pour leurs droits et libertés est élevé.</label>
+              <label><input type="radio" name="q3-2" value="b"> On veut éviter de communiquer.</label>
+              <label><input type="radio" name="q3-2" value="c"> Les données sont purement anonymes.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="3">Valider la mission</button>
+              <span class="quiz-status" id="status-3"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 4 -->
+        <article class="module-card" data-module="4">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 4 – Cyber-crise & gouvernance</div>
+              <div class="module-body">
+                Vivez une mini cyber-crise : prenez des décisions, priorisez les actions, et voyez l’impact
+                sur la conformité et la réputation.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 🔥</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Appliquer les bons réflexes</span>
+            <a href="http://localhost:9004" target="_blank">Ouvrir le TP →</a>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Qui doit être impliqué dans une cellule de crise RGPD ?
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q4-1" value="a"> Uniquement l’IT.</label>
+              <label><input type="radio" name="q4-1" value="b"> Direction, DPO, IT, communication, métiers concernés.</label>
+              <label><input type="radio" name="q4-1" value="c"> Personne, pour éviter les fuites internes.</label>
+            </div>
+            <div class="quiz-question">
+              2. Documenter l’incident et les décisions prises :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q4-2" value="a"> Est une bonne pratique et une exigence de responsabilisation.</label>
+              <label><input type="radio" name="q4-2" value="b"> Est inutile si tout est réglé.</label>
+              <label><input type="radio" name="q4-2" value="c"> Est interdit par le RGPD.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="4">Valider la mission</button>
+              <span class="quiz-status" id="status-4"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 5 -->
+        <article class="module-card" data-module="5">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 5 – Contrat de sous-traitance (DPA)</div>
+              <div class="module-body">
+                Analysez un contrat de sous-traitance fictif et identifiez les clauses manquantes ou insuffisantes
+                au regard du RGPD.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 📑</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Comprendre les obligations du sous-traitant</span>
+            <button class="link-like" data-open-tp="5">Ouvrir le TP →</button>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Un contrat de sous-traitance conforme au RGPD doit :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q5-1" value="a"> Être purement verbal.</label>
+              <label><input type="radio" name="q5-1" value="b"> Définir les instructions documentées du responsable de traitement.</label>
+              <label><input type="radio" name="q5-1" value="c"> Laisser le sous-traitant libre de tout choix.</label>
+            </div>
+            <div class="quiz-question">
+              2. Le sous-traitant doit notamment :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q5-2" value="a"> Aider le responsable à respecter ses obligations RGPD.</label>
+              <label><input type="radio" name="q5-2" value="b"> Garder le contrat secret vis-à-vis de la CNIL.</label>
+              <label><input type="radio" name="q5-2" value="c"> Revendre les données à des partenaires.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="5">Valider la mission</button>
+              <span class="quiz-status" id="status-5"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 6 -->
+        <article class="module-card" data-module="6">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 6 – Privacy by Design</div>
+              <div class="module-body">
+                Analysez une interface volontairement mal conçue et identifiez les violations des principes
+                de Privacy by Design et by Default.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 🧩</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Intégrer la protection des données dès la conception</span>
+            <button class="link-like" data-open-tp="6">Ouvrir le TP →</button>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Le Privacy by Design signifie :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q6-1" value="a"> Ajouter la sécurité à la fin du projet.</label>
+              <label><input type="radio" name="q6-1" value="b"> Intégrer la protection des données dès la conception.</label>
+              <label><input type="radio" name="q6-1" value="c"> Ne pas documenter les choix techniques.</label>
+            </div>
+            <div class="quiz-question">
+              2. Le Privacy by Default implique :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q6-2" value="a"> Des paramètres par défaut les plus protecteurs.</label>
+              <label><input type="radio" name="q6-2" value="b"> Des paramètres ouverts au maximum.</label>
+              <label><input type="radio" name="q6-2" value="c"> L’absence de paramétrage.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="6">Valider la mission</button>
+              <span class="quiz-status" id="status-6"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 7 -->
+        <article class="module-card" data-module="7">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 7 – Dark Patterns & consentement</div>
+              <div class="module-body">
+                Identifiez les manipulations UX (dark patterns) qui biaisent le consentement ou la gestion des cookies
+                sur un site fictif.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 🕵️</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Reconnaître un consentement non libre</span>
+            <button class="link-like" data-open-tp="7">Ouvrir le TP →</button>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Un dark pattern lié au consentement peut être :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q7-1" value="a"> Un bouton “Tout accepter” très visible et “Refuser” caché.</label>
+              <label><input type="radio" name="q7-1" value="b"> Une information claire et équilibrée.</label>
+              <label><input type="radio" name="q7-1" value="c"> Une absence totale de bannière.</label>
+            </div>
+            <div class="quiz-question">
+              2. Pour être valable, le consentement doit être :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q7-2" value="a"> Libre, spécifique, éclairé et univoque.</label>
+              <label><input type="radio" name="q7-2" value="b"> Implicite et présumé.</label>
+              <label><input type="radio" name="q7-2" value="c"> Obtenu une fois pour toutes, sans possibilité de retrait.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="7">Valider la mission</button>
+              <span class="quiz-status" id="status-7"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 8 -->
+        <article class="module-card" data-module="8">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 8 – Registre des traitements</div>
+              <div class="module-body">
+                Analysez un registre de traitements fictif, repérez les incohérences et proposez des corrections
+                pour le rendre conforme.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 📘</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Comprendre le rôle du registre</span>
+            <button class="link-like" data-open-tp="8">Ouvrir le TP →</button>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Le registre des traitements sert principalement à :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q8-1" value="a"> Remplacer toutes les autres obligations RGPD.</label>
+              <label><input type="radio" name="q8-1" value="b"> Documenter les traitements et démontrer la conformité.</label>
+              <label><input type="radio" name="q8-1" value="c"> Lister uniquement les traitements marketing.</label>
+            </div>
+            <div class="quiz-question">
+              2. Un registre doit notamment contenir :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q8-2" value="a"> Les finalités, les catégories de données et de personnes.</label>
+              <label><input type="radio" name="q8-2" value="b"> Uniquement le nom du DPO.</label>
+              <label><input type="radio" name="q8-2" value="c"> Les mots de passe des administrateurs.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="8">Valider la mission</button>
+              <span class="quiz-status" id="status-8"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 9 -->
+        <article class="module-card" data-module="9">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 9 – DPIA (Analyse d’impact)</div>
+              <div class="module-body">
+                Évaluez un projet à risque (vidéosurveillance, scoring, géolocalisation) et déterminez si une DPIA
+                est nécessaire, ainsi que les mesures à prévoir.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 📊</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Identifier quand une DPIA est requise</span>
+            <button class="link-like" data-open-tp="9">Ouvrir le TP →</button>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Une DPIA est en principe requise lorsque :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q9-1" value="a"> Le traitement présente un risque élevé pour les droits et libertés.</label>
+              <label><input type="radio" name="q9-1" value="b"> Le traitement est purement anonyme.</label>
+              <label><input type="radio" name="q9-1" value="c"> Le traitement ne concerne que des données papier.</label>
+            </div>
+            <div class="quiz-question">
+              2. Une DPIA doit :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q9-2" value="a"> Décrire le traitement, évaluer la nécessité, les risques et les mesures.</label>
+              <label><input type="radio" name="q9-2" value="b"> Être purement marketing.</label>
+              <label><input type="radio" name="q9-2" value="c"> Être gardée secrète vis-à-vis de la CNIL.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="9">Valider la mission</button>
+              <span class="quiz-status" id="status-9"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Mission 10 -->
+        <article class="module-card" data-module="10">
+          <div class="module-header">
+            <div>
+              <div class="module-title">Mission 10 – Droits des personnes</div>
+              <div class="module-body">
+                Simulez la gestion d’une demande d’accès, de rectification ou d’effacement, et identifiez les
+                bonnes pratiques de réponse.
+              </div>
+            </div>
+            <span class="module-tag">Niveau : 🧑‍⚖️</span>
+          </div>
+          <div class="module-footer">
+            <span class="mission">Objectif : Savoir répondre à une demande de droits</span>
+            <button class="link-like" data-open-tp="10">Ouvrir le TP →</button>
+          </div>
+          <div class="quiz">
+            <div class="quiz-question">
+              1. Une personne qui exerce son droit d’accès doit recevoir une réponse :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q10-1" value="a"> Dans un délai d’un mois, prolongeable dans certains cas.</label>
+              <label><input type="radio" name="q10-1" value="b"> Uniquement si elle paie des frais.</label>
+              <label><input type="radio" name="q10-1" value="c"> Jamais, ce n’est pas un vrai droit.</label>
+            </div>
+            <div class="quiz-question">
+              2. Le droit à l’effacement :
+            </div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q10-2" value="a"> Est absolu dans tous les cas.</label>
+              <label><input type="radio" name="q10-2" value="b"> Peut être limité, par exemple en cas d’obligation légale de conservation.</label>
+              <label><input type="radio" name="q10-2" value="c"> Ne s’applique jamais aux données en ligne.</label>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn-quiz" data-validate="10">Valider la mission</button>
+              <span class="quiz-status" id="status-10"></span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </section>
+
+  <!-- TP CONTAINER -->
+  <section id="tp-container">
+    <button id="btn-back">← Retour au portail</button>
+    <div id="tp-content"></div>
+  </section>
+</main>
+
+<footer>
+  <div>© RGPD Academy – Environnement de formation fictif, aucune donnée réelle n’est collectée.</div>
+  <div class="footer-links">
+    <span>📚 Contexte : CNIL, LIL, RGPD</span>
+    <span>🧠 Objectifs : Comprendre, Protéger, Réagir</span>
+    <span>🏅 Badge final : RGPD Ready</span>
+  </div>
+</footer>
+
+<script>
+  const STORAGE_KEY = 'rgpd_academy_progress_v2';
+  const TOTAL_MISSIONS = 10;
+  const XP_PER_MISSION = 100;
+
+  const correctAnswers = {
+    1: { 'q1-1': 'b', 'q1-2': 'b' },
+    2: { 'q2-1': 'b', 'q2-2': 'a' },
+    3: { 'q3-1': 'a', 'q3-2': 'a' },
+    4: { 'q4-1': 'b', 'q4-2': 'a' },
+    5: { 'q5-1': 'b', 'q5-2': 'a' },
+    6: { 'q6-1': 'b', 'q6-2': 'a' },
+    7: { 'q7-1': 'a', 'q7-2': 'a' },
+    8: { 'q8-1': 'b', 'q8-2': 'a' },
+    9: { 'q9-1': 'a', 'q9-2': 'a' },
+    10: { 'q10-1': 'a', 'q10-2': 'b' }
+  };
+
+  // Contenus TP 5 à 10
+  const tpContents = {
+    5: `
+      <h1>Mission 5 – Contrat de sous-traitance (DPA)</h1>
+      <div class="tp-box">
+        <h2>📄 Exercice</h2>
+        <p>Voici un extrait d’un faux contrat de sous‑traitance. Identifiez les éléments manquants ou non conformes.</p>
+        <pre>
+Article 3 – Obligations du sous-traitant
+Le sous-traitant s'engage à traiter les données pour le compte du client.
+Aucune autre obligation n'est précisée.
+        </pre>
+        <p><strong>Questions :</strong></p>
+        <ul>
+          <li>Quelles obligations essentielles manquent dans ce contrat ?</li>
+          <li>Quelles clauses devraient être ajoutées pour être conforme au RGPD ?</li>
+        </ul>
+      </div>
+      <div class="tp-box">
+        <h2>✔️ Correction & Explications</h2>
+        <p>Un contrat de sous‑traitance doit obligatoirement contenir :</p>
+        <ul>
+          <li><strong>Les instructions documentées</strong> du responsable de traitement</li>
+          <li><strong>La confidentialité</strong> des personnes autorisées</li>
+          <li><strong>Les mesures de sécurité</strong> techniques et organisationnelles</li>
+          <li><strong>L’obligation d’aider</strong> le responsable à respecter ses obligations (droits, sécurité, DPIA…)</li>
+          <li><strong>La gestion des sous‑traitants ultérieurs</strong> (autorisation préalable)</li>
+          <li><strong>La suppression ou restitution</strong> des données en fin de contrat</li>
+          <li><strong>La mise à disposition des audits</strong></li>
+        </ul>
+        <p class="correct">➡️ Le contrat fourni est donc très incomplet et non conforme.</p>
+      </div>
+    `,
+    6: `
+      <h1>Mission 6 – Privacy by Design</h1>
+      <div class="tp-box">
+        <h2>🔍 Exercice</h2>
+        <p>Voici une interface volontairement mal conçue :</p>
+        <pre>
+Formulaire d'inscription :
+- Email (obligatoire)
+- Téléphone (obligatoire)
+- Adresse postale (obligatoire)
+- Date de naissance (obligatoire)
+- Consentement pré-coché : "J'accepte de recevoir des offres partenaires"
+        </pre>
+        <p>Identifiez les violations du Privacy by Design / Default.</p>
+      </div>
+      <div class="tp-box">
+        <h2>✔️ Correction & Explications</h2>
+        <ul>
+          <li><strong>Collecte excessive</strong> : trop de données obligatoires</li>
+          <li><strong>Consentement non valide</strong> : case pré‑cochée = interdit</li>
+          <li><strong>Pas de minimisation</strong> : adresse + téléphone + date de naissance = inutile pour une inscription simple</li>
+          <li><strong>Pas de paramètre protecteur par défaut</strong></li>
+        </ul>
+        <p class="correct">➡️ Le Privacy by Design impose de limiter la collecte et d’avoir des paramètres protecteurs par défaut.</p>
+      </div>
+    `,
+    7: `
+      <h1>Mission 7 – Dark Patterns & Consentement</h1>
+      <div class="tp-box">
+        <h2>🕵️ Exercice</h2>
+        <p>Voici une bannière cookies fictive :</p>
+        <pre>
+[ACCEPTER TOUT] (bouton vert très visible)
+[Paramètres] (petit lien gris)
+Aucun bouton "Refuser"
+        </pre>
+        <p>Identifiez les dark patterns.</p>
+      </div>
+      <div class="tp-box">
+        <h2>✔️ Correction & Explications</h2>
+        <ul>
+          <li><strong>Absence de bouton Refuser</strong> → consentement non libre</li>
+          <li><strong>Asymétrie visuelle</strong> : "Accepter tout" mis en avant</li>
+          <li><strong>Paramètres cachés</strong> : lien discret</li>
+        </ul>
+        <p class="correct">➡️ Le consentement doit être libre, éclairé, univoque et symétrique.</p>
+      </div>
+    `,
+    8: `
+      <h1>Mission 8 – Registre des traitements</h1>
+      <div class="tp-box">
+        <h2>📘 Exercice</h2>
+        <p>Voici un extrait d’un registre fictif :</p>
+        <pre>
+Traitement : Gestion RH
+Finalité : Non renseignée
+Données : Nom, prénom, adresse, salaire, numéro de sécurité sociale
+Base légale : Non renseignée
+Durée de conservation : Non renseignée
+        </pre>
+        <p>Identifiez les problèmes.</p>
+      </div>
+      <div class="tp-box">
+        <h2>✔️ Correction & Explications</h2>
+        <ul>
+          <li><strong>Finalité manquante</strong></li>
+          <li><strong>Base légale manquante</strong></li>
+          <li><strong>Durée de conservation absente</strong></li>
+          <li><strong>Données sensibles</strong> → doivent être justifiées</li>
+        </ul>
+        <p class="correct">➡️ Un registre doit être complet, précis et mis à jour.</p>
+      </div>
+    `,
+    9: `
+      <h1>Mission 9 – DPIA</h1>
+      <div class="tp-box">
+        <h2>📊 Exercice</h2>
+        <p>Projet fictif :</p>
+        <pre>
+Installation de caméras avec reconnaissance faciale
+dans les locaux d'une entreprise.
+        </pre>
+        <p>La DPIA est‑elle obligatoire ? Pourquoi ?</p>
+      </div>
+      <div class="tp-box">
+        <h2>✔️ Correction & Explications</h2>
+        <ul>
+          <li><strong>Oui, DPIA obligatoire</strong></li>
+          <li>Traitement à <strong>risque élevé</strong></li>
+          <li>Utilisation de <strong>données biométriques</strong></li>
+          <li>Surveillance systématique</li>
+        </ul>
+        <p class="correct">➡️ La DPIA est indispensable pour évaluer les risques et mesures.</p>
+      </div>
+    `,
+    10: `
+      <h1>Mission 10 – Droits des personnes</h1>
+      <div class="tp-box">
+        <h2>🧑‍⚖️ Exercice</h2>
+        <p>Une personne demande :</p>
+        <pre>
+"Je souhaite accéder à toutes les données que vous détenez sur moi."
+        </pre>
+        <p>Comment répondre ? Quel délai ?</p>
+      </div>
+      <div class="tp-box">
+        <h2>✔️ Correction & Explications</h2>
+        <ul>
+          <li><strong>Délai : 1 mois</strong> (prolongeable 2 mois si complexe)</li>
+          <li>Réponse claire, complète, compréhensible</li>
+          <li>Vérification d’identité possible</li>
+          <li>Gratuit (sauf demandes manifestement abusives)</li>
+        </ul>
+        <p class="correct">➡️ Le droit d’accès est un droit fondamental du RGPD.</p>
+      </div>
+    `
+  };
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { completed: {}, xp: 0 };
+      return JSON.parse(raw);
+    } catch (e) {
+      return { completed: {}, xp: 0 };
+    }
+  }
+
+  function saveProgress(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateUI(state) {
+    const completedCount = Object.values(state.completed).filter(Boolean).length;
+    const progressFill = document.getElementById('progress-fill');
+    const progressLabel = document.getElementById('progress-label');
+    const xpLevel = document.getElementById('xp-level');
+    const xpRank = document.getElementById('xp-rank');
+    const badges = document.querySelectorAll('.badge');
+    const cards = document.querySelectorAll('.module-card');
+
+    const ratio = completedCount / TOTAL_MISSIONS;
+    progressFill.style.width = (ratio * 100) + '%';
+    progressLabel.textContent = `${completedCount} / ${TOTAL_MISSIONS} missions`;
+
+    const xp = completedCount * XP_PER_MISSION;
+    xpLevel.textContent = `${xp} / ${TOTAL_MISSIONS * XP_PER_MISSION}`;
+
+    let rank = 'Débutant';
+    if (xp >= 200 && xp < 400) rank = 'Intermédiaire';
+    else if (xp >= 400 && xp < 800) rank = 'Avancé';
+    else if (xp >= 800) rank = 'RGPD Ready';
+    xpRank.textContent = rank;
+
+    cards.forEach(card => {
+      const moduleId = parseInt(card.getAttribute('data-module'), 10);
+      const statusEl = document.getElementById(`status-${moduleId}`);
+
+      if (state.completed[moduleId]) {
+        card.classList.add('completed');
+        if (statusEl) {
+          statusEl.textContent = 'Mission validée ✔';
+          statusEl.classList.remove('ko');
+          statusEl.classList.add('ok');
+        }
+      }
+
+      if (moduleId === 1) {
+        card.classList.remove('locked');
+        card.dataset.locked = 'false';
+      } else {
+        const prevCompleted = !!state.completed[moduleId - 1];
+        if (!prevCompleted) {
+          card.classList.add('locked');
+          card.dataset.locked = 'true';
+          if (statusEl && !state.completed[moduleId]) {
+            statusEl.textContent = 'Mission verrouillée – validez d’abord la mission précédente.';
+            statusEl.classList.remove('ok');
+            statusEl.classList.add('ko');
+          }
+        } else {
+          card.classList.remove('locked');
+          card.dataset.locked = 'false';
+          if (statusEl && !state.completed[moduleId]) {
+            statusEl.textContent = '';
+            statusEl.classList.remove('ok', 'ko');
+          }
+        }
+      }
+    });
+
+    badges.forEach(badge => badge.classList.remove('active'));
+    if (completedCount >= 1) document.querySelector('[data-badge="context"]').classList.add('active');
+    if (completedCount >= 2) document.querySelector('[data-badge="security"]').classList.add('active');
+    if (completedCount >= 3) document.querySelector('[data-badge="breach"]').classList.add('active');
+    if (completedCount >= 4) document.querySelector('[data-badge="crisis"]').classList.add('active');
+    if (completedCount >= 5) document.querySelector('[data-badge="dpa"]').classList.add('active');
+    if (completedCount >= 6) document.querySelector('[data-badge="pbd"]').classList.add('active');
+    if (completedCount >= 7) document.querySelector('[data-badge="dark"]').classList.add('active');
+    if (completedCount >= 8) document.querySelector('[data-badge="register"]').classList.add('active');
+    if (completedCount >= 9) document.querySelector('[data-badge="dpia"]').classList.add('active');
+    if (completedCount >= 10) document.querySelector('[data-badge="ready"]').classList.add('active');
+  }
+
+  function validateMission(moduleId, state) {
+    const card = document.querySelector(`.module-card[data-module="${moduleId}"]`);
+    const locked = card && card.dataset.locked === 'true';
+    const statusEl = document.getElementById(`status-${moduleId}`);
+
+    if (locked) {
+      if (statusEl) {
+        statusEl.textContent = 'Mission verrouillée – validez d’abord la mission précédente.';
+        statusEl.classList.remove('ok');
+        statusEl.classList.add('ko');
+      }
+      return state;
+    }
+
+    const answers = correctAnswers[moduleId];
+    let allGood = true;
+    Object.keys(answers).forEach(q => {
+      const expected = answers[q];
+      const selected = document.querySelector(`input[name="${q}"]:checked`);
+      if (!selected || selected.value !== expected) {
+        allGood = false;
+      }
+    });
+
+    if (!statusEl) return state;
+
+    if (!allGood) {
+      statusEl.textContent = 'Certaines réponses sont incorrectes. Réessayez.';
+      statusEl.classList.remove('ok');
+      statusEl.classList.add('ko');
+      return state;
+    }
+
+    statusEl.textContent = 'Mission validée ✔';
+    statusEl.classList.remove('ko');
+    statusEl.classList.add('ok');
+
+    if (!state.completed[moduleId]) {
+      state.completed[moduleId] = true;
+      saveProgress(state);
+      updateUI(state);
+    }
+    return state;
+  }
+
+  function showTP(missionId) {
+    const portal = document.getElementById('portal');
+    const tpContainer = document.getElementById('tp-container');
+    const tpContent = document.getElementById('tp-content');
+
+    if (!tpContents[missionId]) return;
+
+    portal.style.display = 'none';
+    tpContainer.style.display = 'block';
+    tpContent.innerHTML = tpContents[missionId];
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function backToPortal() {
+    const portal = document.getElementById('portal');
+    const tpContainer = document.getElementById('tp-container');
+    const tpContent = document.getElementById('tp-content');
+
+    tpContent.innerHTML = '';
+    tpContainer.style.display = 'none';
+    portal.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    let state = loadProgress();
+    updateUI(state);
+
+    document.querySelectorAll('.btn-quiz').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const moduleId = parseInt(btn.getAttribute('data-validate'), 10);
+        state = validateMission(moduleId, state);
+      });
+    });
+
+    document.querySelectorAll('[data-open-tp]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const missionId = parseInt(btn.getAttribute('data-open-tp'), 10);
+        showTP(missionId);
+      });
+    });
+
+    const btnBack = document.getElementById('btn-back');
+    btnBack.addEventListener('click', backToPortal);
+  });
+</script>
+</body>
+</html>

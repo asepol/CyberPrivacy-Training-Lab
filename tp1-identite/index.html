@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission 1 – Identité numérique & DCP</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 16px 28px;
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .tag {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+    main {
+      padding: 20px 28px 30px;
+      max-width: 900px;
+      margin: 0 auto;
+      flex: 1;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 20px;
+      margin-top: 16px;
+    }
+    .card {
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      padding: 14px 16px;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 7px 8px;
+      border-radius: 8px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+    small {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+    .risk {
+      color: #f97373;
+      font-size: 0.8rem;
+    }
+    .list {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      padding-left: 18px;
+    }
+    .list li {
+      margin-bottom: 4px;
+    }
+    .highlight {
+      color: #facc15;
+      font-weight: 600;
+    }
+    footer {
+      padding: 10px 28px 14px;
+      font-size: 0.78rem;
+      color: #6b7280;
+      border-top: 1px solid #1f2937;
+      background: #020617;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="title">Mission 1 – Identité numérique & données à caractère personnel</div>
+    <div class="tag">Objectif : Identifier les données personnelles et les risques de collecte excessive</div>
+  </div>
+  <div class="tag">Durée estimée : 15 min</div>
+</header>
+
+<main>
+  <h2>Scénario</h2>
+  <p>
+    Vous êtes face à un formulaire en ligne d’un service fictif. Votre mission est d’identifier :
+    <span class="highlight">les données à caractère personnel</span>, les données sensibles,
+    et les éléments qui posent problème au regard du RGPD.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Formulaire de collecte</h3>
+      <p class="tag">Remplissez-le fictivement, mais concentrez-vous sur ce qui est demandé.</p>
+
+      <label>Nom complet *</label>
+      <input type="text" placeholder="Ex : Dupont Marie">
+      <small>Donnée à caractère personnel directe.</small>
+
+      <label>Adresse postale complète *</label>
+      <input type="text" placeholder="Ex : 12 rue des Lilas, 75000 Paris">
+      <small>Donnée permettant d’identifier et localiser une personne.</small>
+
+      <label>Adresse e-mail personnelle *</label>
+      <input type="email" placeholder="Ex : marie.dupont@gmail.com">
+      <small>Donnée personnelle, souvent utilisée comme identifiant.</small>
+
+      <label>Numéro de téléphone portable *</label>
+      <input type="tel" placeholder="Ex : 06 12 34 56 78">
+      <small>Donnée personnelle, contact direct.</small>
+
+      <label>Numéro de sécurité sociale *</label>
+      <input type="text" placeholder="Ex : 2 86 12 75 123 456">
+      <small class="risk">Donnée hautement sensible – collecte très encadrée.</small>
+
+      <label>Situation familiale *</label>
+      <select>
+        <option>Célibataire</option>
+        <option>Marié(e)</option>
+        <option>Divorcé(e)</option>
+        <option>Veuf(ve)</option>
+      </select>
+      <small>Donnée personnelle, parfois sensible selon le contexte.</small>
+
+      <label>Opinion politique (facultatif)</label>
+      <input type="text" placeholder="Ex : ...">
+      <small class="risk">Donnée sensible au sens du RGPD – ne devrait pas être collectée ici.</small>
+
+      <label>État de santé (facultatif)</label>
+      <textarea rows="2" placeholder="Ex : pathologies, traitements..."></textarea>
+      <small class="risk">Donnée de santé = catégorie particulière de données, très encadrée.</small>
+
+      <label>Acceptation des conditions</label>
+      <input type="checkbox" checked> <span>J’accepte que mes données soient utilisées à des fins d’amélioration du service, de prospection commerciale, et partagées avec des partenaires.</span>
+      <br><small class="risk">Formulation floue, consentement global, pas de granularité.</small>
+    </div>
+
+    <div class="card">
+      <h3>Votre mission</h3>
+      <ul class="list">
+        <li>Listez toutes les <span class="highlight">données à caractère personnel</span> demandées.</li>
+        <li>Identifiez les <span class="highlight">données sensibles</span> au sens du RGPD.</li>
+        <li>Repérez les éléments qui semblent <span class="highlight">disproportionnés</span> par rapport à un simple service en ligne.</li>
+        <li>Notez ce qui manque : information, finalité, durée de conservation, droits, etc.</li>
+      </ul>
+      <p style="margin-top:10px;">
+        À la fin de la mission, vous devez être capable d’expliquer :
+      </p>
+      <ul class="list">
+        <li>Ce qu’est une donnée à caractère personnel.</li>
+        <li>Ce qu’est une donnée sensible.</li>
+        <li>Pourquoi la minimisation des données est un principe clé du RGPD.</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Mission 1 – Environnement fictif. Aucune donnée saisie ici n’est réellement collectée ou stockée.
+</footer>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission 4 – Cyber-crise & gouvernance</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 16px 28px;
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .tag {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+    main {
+      padding: 20px 28px 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+      flex: 1;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .timeline {
+      margin-top: 16px;
+      border-left: 2px solid #1f2937;
+      padding-left: 16px;
+    }
+    .event {
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .event::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+    .event-time {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+    .event-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .event-body {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+    .choices {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .choice {
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .choice:hover {
+      border-color: #22c55e;
+      background: #020617;
+    }
+    .choice.selected {
+      border-color: #22c55e;
+      background: #022c22;
+    }
+    .score {
+      margin-top: 18px;
+      font-size: 0.9rem;
+      color: #a5b4fc;
+    }
+    footer {
+      padding: 10px 28px 14px;
+      font-size: 0.78rem;
+      color: #6b7280;
+      border-top: 1px solid #1f2937;
+      background: #020617;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="title">Mission 4 – Cyber-crise & gouvernance des données</div>
+    <div class="tag">Objectif : Prendre les bonnes décisions en situation de crise</div>
+  </div>
+  <div class="tag">Durée estimée : 20–30 min</div>
+</header>
+
+<main>
+  <h2>Scénario</h2>
+  <p>
+    Une cyber-attaque a été détectée sur le système d’information de votre organisation.
+    Des données personnelles pourraient être concernées. Vous faites partie de la cellule de crise.
+  </p>
+
+  <div class="timeline">
+    <div class="event">
+      <div class="event-time">T0 – 08:12</div>
+      <div class="event-title">Alerte de l’équipe IT</div>
+      <div class="event-body">
+        L’équipe IT détecte une activité anormale sur un serveur exposé sur Internet.
+        Des logs indiquent des téléchargements massifs de fichiers.
+      </div>
+    </div>
+    <div class="event">
+      <div class="event-time">T0 + 30 min</div>
+      <div class="event-title">Premières analyses</div>
+      <div class="event-body">
+        Il apparaît que des fichiers contenant des données clients ont potentiellement été exfiltrés.
+        L’ampleur exacte n’est pas encore connue.
+      </div>
+    </div>
+  </div>
+
+  <h2>Vos décisions</h2>
+  <p>
+    Pour chaque étape, choisissez l’action que vous jugez la plus adaptée. Discutez ensuite des impacts
+    en termes de conformité, de communication et de gestion des risques.
+  </p>
+
+  <div class="choices">
+    <div class="choice" data-score="2">
+      🚨 Informer immédiatement la direction générale et le DPO, et déclencher la cellule de crise.
+    </div>
+    <div class="choice" data-score="-1">
+      🤐 Attendre d’avoir plus d’informations techniques avant d’en parler à qui que ce soit.
+    </div>
+    <div class="choice" data-score="1">
+      🛠 Demander à l’IT de couper l’accès au serveur concerné et de conserver les logs.
+    </div>
+    <div class="choice" data-score="-2">
+      🧹 Effacer les logs pour éviter que l’incident ne soit découvert en interne.
+    </div>
+  </div>
+
+  <div class="score" id="score">
+    Score de vos décisions : 0 – Discutez en groupe des choix faits et de leurs conséquences.
+  </div>
+</main>
+
+<footer>
+  Mission 4 – Simulation de crise. L’objectif est de favoriser la discussion et la prise de recul, pas de juger.
+</footer>
+
+<script>
+  const choices = document.querySelectorAll('.choice');
+  const scoreEl = document.getElementById('score');
+  let score = 0;
+
+  choices.forEach(choice => {
+    choice.addEventListener('click', () => {
+      if (!choice.classList.contains('selected')) {
+        choice.classList.add('selected');
+        const val = parseInt(choice.getAttribute('data-score'), 10) || 0;
+        score += val;
+        scoreEl.textContent = "Score de vos décisions : " + score +
+          " – Utilisez ce score comme base de discussion sur la gouvernance et la conformité.";
+      }
+    });
+  });
+</script>
+</body>
+</html>
