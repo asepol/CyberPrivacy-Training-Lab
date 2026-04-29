@@ -33,9 +33,13 @@ git clone https://github.com/asepol/CyberPrivacy-Training-Lab.git
 cd CyberPrivacy-Training-Lab
 ```
 ### 🐳 Installation via Docker
+```
+apt install docker.io
+apt install docker-compose
 
-docker build -t cyberprivacy-lab .
-docker run -d -p 8080:80 cyberprivacy-lab
+Dans le dossier --> CyberPrivacy-Training-Lab
+docker compose -d --build
+```
 Le lab sera accessible sur :
 👉 http://localhost:9000
 
@@ -45,7 +49,7 @@ Le lab sera accessible sur :
 - Nginx
 
 ### 📂 Structure du projet
-
+```bash
 CyberPrivacy-Training-Lab/
 │
 ├── assets/           # Images, icônes, ressources
@@ -54,6 +58,5 @@ CyberPrivacy-Training-Lab/
 ├── index.html        # Page principale
 ├── Dockerfile        # Build Docker
 └── README.md
-
-
+```
 
