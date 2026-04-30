@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RGPD ACADEMY – Portail</title>
   <style>
     :root {
@@ -329,6 +330,9 @@
     .quiz-status { font-size: 0.75rem; }
     .quiz-status.ok { color: #4ade80; }
     .quiz-status.ko { color: #f97373; }
+    .quiz-feedback { font-size: 0.82rem; margin: 6px 0 10px; padding: 8px 12px; border-radius: 8px; line-height: 1.5; display: none; }
+    .quiz-feedback.feedback-ok { display: block; background: rgba(34,197,94,0.12); color: #4ade80; border-left: 3px solid #22c55e; }
+    .quiz-feedback.feedback-ko { display: block; background: rgba(249,115,115,0.12); color: #f97373; border-left: 3px solid #f97373; }
     footer {
       padding: 12px 40px 18px;
       font-size: 0.78rem;
@@ -423,15 +427,15 @@
         <div class="hero-tags">
           <span class="hero-tag">🎯 Objectifs : Comprendre, Identifier, Réagir</span>
           <span class="hero-tag">🧩 Format : TP web gamifiés</span>
-          <span class="hero-tag">⚖️ Thèmes : RGPD, CNIL, DCP, Fuite, DPA, DPIA, Droits</span>
+          <span class="hero-tag">⏱️ Durée estimée : ~3h de formation</span>
         </div>
         <div class="hero-cta">
           <a href="#modules" class="btn-primary">
             Commencer la campagne
             <span>▶</span>
           </a>
-          <button class="btn-ghost" type="button">
-            Voir les objectifs pédagogiques
+          <button class="btn-ghost" type="button" onclick="if(confirm('Réinitialiser toute la progression ?')) { localStorage.removeItem('rgpd_academy_progress_v2'); location.reload(); }">
+            🔄 Réinitialiser
           </button>
         </div>
       </div>
@@ -473,34 +477,43 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 1 – Identité numérique & DCP</div>
-              <div class="module-body">
-                Explorez un faux site de collecte de données et identifiez les données à caractère personnel,
-                les excès de collecte et les risques associés.
-              </div>
+              <div class="module-body">Explorez un faux site de collecte de données et identifiez les données à caractère personnel, les excès de collecte et les risques associés.</div>
             </div>
             <span class="module-tag">Niveau : 🌱</span>
           </div>
           <div class="module-footer">
-            <span class="mission">Objectif : Comprendre ce qu’est une donnée personnelle</span>
-            <a href="tp1-identite.html">Ouvrir le TP →</a>
+            <span class="mission">Objectif : Comprendre ce qu'est une donnée personnelle</span>
+            <button class="link-like" data-open-tp="1">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Une donnée à caractère personnel, c’est :
-            </div>
+            <div class="quiz-question">1. Une donnée à caractère personnel, c'est :</div>
             <div class="quiz-options">
               <label><input type="radio" name="q1-1" value="a"> Une donnée purement technique sans lien avec une personne.</label>
               <label><input type="radio" name="q1-1" value="b"> Toute information se rapportant à une personne identifiée ou identifiable.</label>
               <label><input type="radio" name="q1-1" value="c"> Un document papier uniquement.</label>
             </div>
-            <div class="quiz-question">
-              2. Le numéro de sécurité sociale est :
-            </div>
+            <div class="quiz-feedback" id="fb-1-1"></div>
+            <div class="quiz-question">2. Le numéro de sécurité sociale est :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q1-2" value="a"> Une donnée banale.</label>
+              <label><input type="radio" name="q1-2" value="a"> Une donnée banale sans protection particulière.</label>
               <label><input type="radio" name="q1-2" value="b"> Une donnée sensible ou fortement encadrée.</label>
               <label><input type="radio" name="q1-2" value="c"> Une donnée anonyme.</label>
             </div>
+            <div class="quiz-feedback" id="fb-1-2"></div>
+            <div class="quiz-question">3. La collecte d'opinions politiques sur un formulaire d'inscription :</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1-3" value="a"> Est autorisée si l'utilisateur remplit le champ volontairement.</label>
+              <label><input type="radio" name="q1-3" value="b"> Est en principe interdite sauf exceptions — c'est une donnée sensible (art. 9).</label>
+              <label><input type="radio" name="q1-3" value="c"> Est obligatoire pour personnaliser l'expérience.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-1-3"></div>
+            <div class="quiz-question">4. Cas concret — Un site e-commerce collecte : nom, email, téléphone, adresse, date de naissance, ethnie, état de santé. Quels champs posent problème ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1-4" value="a"> Uniquement l'email, car c'est un identifiant direct.</label>
+              <label><input type="radio" name="q1-4" value="b"> L'ethnie et l'état de santé — données sensibles inutiles pour un achat en ligne.</label>
+              <label><input type="radio" name="q1-4" value="c"> Aucun, l'utilisateur a accepté les CGU.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-1-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="1">Valider la mission</button>
               <span class="quiz-status" id="status-1"></span>
@@ -513,34 +526,43 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 2 – Bonnes pratiques & sécurité</div>
-              <div class="module-body">
-                Analysez un intranet fictif rempli de mauvaises pratiques : mots de passe, accès, sauvegardes,
-                et proposez des mesures correctives.
-              </div>
+              <div class="module-body">Analysez un intranet fictif rempli de mauvaises pratiques : mots de passe, accès, sauvegardes, et proposez des mesures correctives.</div>
             </div>
             <span class="module-tag">Niveau : 🧩</span>
           </div>
           <div class="module-footer">
             <span class="mission">Objectif : Identifier les mauvaises pratiques</span>
-            <a href="tp2-bonnes-pratiques.html">Ouvrir le TP →</a>
+            <button class="link-like" data-open-tp="2">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Stocker des mots de passe en clair dans le code source :
-            </div>
+            <div class="quiz-question">1. Stocker des mots de passe en clair dans le code source :</div>
             <div class="quiz-options">
               <label><input type="radio" name="q2-1" value="a"> Est acceptable si le dépôt est privé.</label>
               <label><input type="radio" name="q2-1" value="b"> Est une très mauvaise pratique de sécurité.</label>
-              <label><input type="radio" name="q2-1" value="c"> Est recommandé pour aller plus vite.</label>
+              <label><input type="radio" name="q2-1" value="c"> Est recommandé pour aller plus vite en équipe.</label>
             </div>
-            <div class="quiz-question">
-              2. L’obligation de sécurité dans le RGPD implique :
-            </div>
+            <div class="quiz-feedback" id="fb-2-1"></div>
+            <div class="quiz-question">2. L'obligation de sécurité dans le RGPD (art. 32) implique :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q2-2" value="a"> De prendre des mesures techniques et organisationnelles adaptées.</label>
-              <label><input type="radio" name="q2-2" value="b"> De ne rien faire tant qu’il n’y a pas d’incident.</label>
-              <label><input type="radio" name="q2-2" value="c"> De déléguer tout à un prestataire sans contrôle.</label>
+              <label><input type="radio" name="q2-2" value="a"> De prendre des mesures techniques et organisationnelles adaptées aux risques.</label>
+              <label><input type="radio" name="q2-2" value="b"> De ne rien faire tant qu'il n'y a pas d'incident.</label>
+              <label><input type="radio" name="q2-2" value="c"> De déléguer tout à un prestataire sans vérification.</label>
             </div>
+            <div class="quiz-feedback" id="fb-2-2"></div>
+            <div class="quiz-question">3. La règle 3-2-1 pour les sauvegardes signifie :</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q2-3" value="a"> 3 sauvegardes, sur 2 supports différents, dont 1 hors site.</label>
+              <label><input type="radio" name="q2-3" value="b"> Sauvegarder 3 fois par semaine, 2 fois par mois, 1 fois par an.</label>
+              <label><input type="radio" name="q2-3" value="c"> 3 copies cryptées, 2 sur le même serveur, 1 dans le cloud.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-2-3"></div>
+            <div class="quiz-question">4. Cas concret — Un dossier /backup/ est accessible publiquement. Quelle est la première action ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q2-4" value="a"> Vérifier si quelqu'un a téléchargé les fichiers avant d'agir.</label>
+              <label><input type="radio" name="q2-4" value="b"> Couper immédiatement l'accès, qualifier la violation, notifier si nécessaire.</label>
+              <label><input type="radio" name="q2-4" value="c"> Supprimer les fichiers pour effacer les traces.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-2-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="2">Valider la mission</button>
               <span class="quiz-status" id="status-2"></span>
@@ -553,34 +575,43 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 3 – Fuite de données</div>
-              <div class="module-body">
-                Faites face à une fuite de données simulée : fichiers exposés, e-mails suspects, données sensibles.
-                Analysez, qualifiez et proposez les actions RGPD.
-              </div>
+              <div class="module-body">Faites face à une fuite de données simulée : fichiers exposés, e-mails suspects, données sensibles. Analysez, qualifiez et proposez les actions RGPD.</div>
             </div>
             <span class="module-tag">Niveau : ⚠️</span>
           </div>
           <div class="module-footer">
             <span class="mission">Objectif : Savoir réagir à une fuite</span>
-            <a href="tp3-fuite.html">Ouvrir le TP →</a>
+            <button class="link-like" data-open-tp="3">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. En cas de violation de données, la notification à la CNIL doit en principe être faite :
-            </div>
+            <div class="quiz-question">1. En cas de violation de données, la notification à la CNIL doit être faite :</div>
             <div class="quiz-options">
               <label><input type="radio" name="q3-1" value="a"> Dans un délai maximal de 72 heures après en avoir eu connaissance.</label>
-              <label><input type="radio" name="q3-1" value="b"> Un an après, le temps d’enquêter.</label>
-              <label><input type="radio" name="q3-1" value="c"> Jamais, ce n’est pas obligatoire.</label>
+              <label><input type="radio" name="q3-1" value="b"> Un an après, le temps d'enquêter complètement.</label>
+              <label><input type="radio" name="q3-1" value="c"> Jamais, ce n'est pas obligatoire.</label>
             </div>
-            <div class="quiz-question">
-              2. Informer les personnes concernées est nécessaire lorsque :
-            </div>
+            <div class="quiz-feedback" id="fb-3-1"></div>
+            <div class="quiz-question">2. Informer les personnes concernées est nécessaire lorsque :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q3-2" value="a"> Le risque pour leurs droits et libertés est élevé.</label>
-              <label><input type="radio" name="q3-2" value="b"> On veut éviter de communiquer.</label>
+              <label><input type="radio" name="q3-2" value="a"> Le risque pour leurs droits et libertés est élevé (ex : IBAN exposés).</label>
+              <label><input type="radio" name="q3-2" value="b"> On veut éviter de communiquer publiquement.</label>
               <label><input type="radio" name="q3-2" value="c"> Les données sont purement anonymes.</label>
             </div>
+            <div class="quiz-feedback" id="fb-3-2"></div>
+            <div class="quiz-question">3. Un e-mail vous demandant de confirmer vos coordonnées bancaires "suite à une fuite" est :</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3-3" value="a"> Une procédure légale normale de vérification post-incident.</label>
+              <label><input type="radio" name="q3-3" value="b"> Une tentative de phishing exploitant la fuite — ne pas cliquer.</label>
+              <label><input type="radio" name="q3-3" value="c"> Un message automatique de votre banque.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-3-3"></div>
+            <div class="quiz-question">4. Cas concret — Un fichier avec noms, emails, téléphones et IBAN est exposé 6 jours. Quelle obligation s'applique ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3-4" value="a"> Aucune si l'accès a été fermé avant qu'on le sache.</label>
+              <label><input type="radio" name="q3-4" value="b"> Notification CNIL sous 72h + information des personnes (risque élevé : IBAN).</label>
+              <label><input type="radio" name="q3-4" value="c"> Juste noter l'incident en interne et passer à autre chose.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-3-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="3">Valider la mission</button>
               <span class="quiz-status" id="status-3"></span>
@@ -593,34 +624,43 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 4 – Cyber-crise & gouvernance</div>
-              <div class="module-body">
-                Vivez une mini cyber-crise : prenez des décisions, priorisez les actions, et voyez l’impact
-                sur la conformité et la réputation.
-              </div>
+              <div class="module-body">Vivez une mini cyber-crise : prenez des décisions, priorisez les actions, et voyez l'impact sur la conformité et la réputation.</div>
             </div>
             <span class="module-tag">Niveau : 🔥</span>
           </div>
           <div class="module-footer">
             <span class="mission">Objectif : Appliquer les bons réflexes</span>
-            <a href="tp4-cybercrise.html">Ouvrir le TP →</a>
+            <button class="link-like" data-open-tp="4">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Qui doit être impliqué dans une cellule de crise RGPD ?
-            </div>
+            <div class="quiz-question">1. Qui doit être impliqué dans une cellule de crise RGPD ?</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q4-1" value="a"> Uniquement l’IT.</label>
+              <label><input type="radio" name="q4-1" value="a"> Uniquement l'équipe IT.</label>
               <label><input type="radio" name="q4-1" value="b"> Direction, DPO, IT, communication, métiers concernés.</label>
-              <label><input type="radio" name="q4-1" value="c"> Personne, pour éviter les fuites internes.</label>
+              <label><input type="radio" name="q4-1" value="c"> Personne — mieux vaut gérer discrètement.</label>
             </div>
-            <div class="quiz-question">
-              2. Documenter l’incident et les décisions prises :
-            </div>
+            <div class="quiz-feedback" id="fb-4-1"></div>
+            <div class="quiz-question">2. Documenter l'incident et les décisions prises :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q4-2" value="a"> Est une bonne pratique et une exigence de responsabilisation.</label>
-              <label><input type="radio" name="q4-2" value="b"> Est inutile si tout est réglé.</label>
-              <label><input type="radio" name="q4-2" value="c"> Est interdit par le RGPD.</label>
+              <label><input type="radio" name="q4-2" value="a"> Est une bonne pratique et une exigence d'accountability (art. 5.2 RGPD).</label>
+              <label><input type="radio" name="q4-2" value="b"> Est inutile une fois l'incident résolu.</label>
+              <label><input type="radio" name="q4-2" value="c"> Est interdit par le RGPD pour éviter les preuves.</label>
             </div>
+            <div class="quiz-feedback" id="fb-4-2"></div>
+            <div class="quiz-question">3. Face à un ransomware, payer la rançon :</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q4-3" value="a"> Garantit la récupération des données et clôt l'incident.</label>
+              <label><input type="radio" name="q4-3" value="b"> N'est pas recommandé — aucune garantie et finance des criminels.</label>
+              <label><input type="radio" name="q4-3" value="c"> Est obligatoire pour éviter une notification à la CNIL.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-4-3"></div>
+            <div class="quiz-question">4. Cas concret — SI partiellement chiffré à 14h30. Quel est le bon ordre d'alerte ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q4-4" value="a"> Attendre une analyse complète avant d'alerter quiconque.</label>
+              <label><input type="radio" name="q4-4" value="b"> RSSI → Direction → CNIL (72h) → personnes concernées si risque élevé → assureur.</label>
+              <label><input type="radio" name="q4-4" value="c"> Alerter les médias en premier pour montrer la transparence.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-4-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="4">Valider la mission</button>
               <span class="quiz-status" id="status-4"></span>
@@ -633,10 +673,7 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 5 – Contrat de sous-traitance (DPA)</div>
-              <div class="module-body">
-                Analysez un contrat de sous-traitance fictif et identifiez les clauses manquantes ou insuffisantes
-                au regard du RGPD.
-              </div>
+              <div class="module-body">Analysez un contrat de sous-traitance fictif et identifiez les clauses manquantes ou insuffisantes au regard du RGPD.</div>
             </div>
             <span class="module-tag">Niveau : 📑</span>
           </div>
@@ -645,22 +682,34 @@
             <button class="link-like" data-open-tp="5">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Un contrat de sous-traitance conforme au RGPD doit :
-            </div>
+            <div class="quiz-question">1. Un contrat de sous-traitance conforme au RGPD doit :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q5-1" value="a"> Être purement verbal.</label>
-              <label><input type="radio" name="q5-1" value="b"> Définir les instructions documentées du responsable de traitement.</label>
+              <label><input type="radio" name="q5-1" value="a"> Être purement verbal pour plus de flexibilité.</label>
+              <label><input type="radio" name="q5-1" value="b"> Définir par écrit les instructions documentées du responsable de traitement.</label>
               <label><input type="radio" name="q5-1" value="c"> Laisser le sous-traitant libre de tout choix.</label>
             </div>
-            <div class="quiz-question">
-              2. Le sous-traitant doit notamment :
-            </div>
+            <div class="quiz-feedback" id="fb-5-1"></div>
+            <div class="quiz-question">2. Le sous-traitant doit notamment :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q5-2" value="a"> Aider le responsable à respecter ses obligations RGPD.</label>
+              <label><input type="radio" name="q5-2" value="a"> Aider le responsable à respecter ses obligations RGPD (droits, sécurité, DPIA).</label>
               <label><input type="radio" name="q5-2" value="b"> Garder le contrat secret vis-à-vis de la CNIL.</label>
-              <label><input type="radio" name="q5-2" value="c"> Revendre les données à des partenaires.</label>
+              <label><input type="radio" name="q5-2" value="c"> Revendre les données à ses propres partenaires commerciaux.</label>
             </div>
+            <div class="quiz-feedback" id="fb-5-2"></div>
+            <div class="quiz-question">3. En fin de contrat, que doit faire le sous-traitant avec les données ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q5-3" value="a"> Les conserver indéfiniment au cas où.</label>
+              <label><input type="radio" name="q5-3" value="b"> Les restituer ou les supprimer selon les instructions du responsable.</label>
+              <label><input type="radio" name="q5-3" value="c"> Les transférer automatiquement à son prochain client.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-5-3"></div>
+            <div class="quiz-question">4. Cas concret — Un contrat stipule juste "le prestataire traite les données pour le client". Est-ce suffisant ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q5-4" value="a"> Oui, c'est suffisant pour la conformité RGPD.</label>
+              <label><input type="radio" name="q5-4" value="b"> Non — il manque les instructions, mesures de sécurité, droits, sous-traitants ultérieurs, etc.</label>
+              <label><input type="radio" name="q5-4" value="c"> Oui, si les deux parties sont de bonne foi.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-5-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="5">Valider la mission</button>
               <span class="quiz-status" id="status-5"></span>
@@ -673,10 +722,7 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 6 – Privacy by Design</div>
-              <div class="module-body">
-                Analysez une interface volontairement mal conçue et identifiez les violations des principes
-                de Privacy by Design et by Default.
-              </div>
+              <div class="module-body">Analysez une interface volontairement mal conçue et identifiez les violations des principes de Privacy by Design et by Default.</div>
             </div>
             <span class="module-tag">Niveau : 🧩</span>
           </div>
@@ -685,22 +731,34 @@
             <button class="link-like" data-open-tp="6">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Le Privacy by Design signifie :
-            </div>
+            <div class="quiz-question">1. Le Privacy by Design signifie :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q6-1" value="a"> Ajouter la sécurité à la fin du projet.</label>
-              <label><input type="radio" name="q6-1" value="b"> Intégrer la protection des données dès la conception.</label>
-              <label><input type="radio" name="q6-1" value="c"> Ne pas documenter les choix techniques.</label>
+              <label><input type="radio" name="q6-1" value="a"> Ajouter la sécurité et la conformité à la fin du projet.</label>
+              <label><input type="radio" name="q6-1" value="b"> Intégrer la protection des données dès la conception du produit ou service.</label>
+              <label><input type="radio" name="q6-1" value="c"> Ne pas documenter les choix techniques pour aller plus vite.</label>
             </div>
-            <div class="quiz-question">
-              2. Le Privacy by Default implique :
-            </div>
+            <div class="quiz-feedback" id="fb-6-1"></div>
+            <div class="quiz-question">2. Le Privacy by Default implique :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q6-2" value="a"> Des paramètres par défaut les plus protecteurs.</label>
-              <label><input type="radio" name="q6-2" value="b"> Des paramètres ouverts au maximum.</label>
-              <label><input type="radio" name="q6-2" value="c"> L’absence de paramétrage.</label>
+              <label><input type="radio" name="q6-2" value="a"> Des paramètres par défaut les plus protecteurs pour l'utilisateur.</label>
+              <label><input type="radio" name="q6-2" value="b"> Des paramètres ouverts au maximum par défaut.</label>
+              <label><input type="radio" name="q6-2" value="c"> L'absence totale de paramétrage pour l'utilisateur.</label>
             </div>
+            <div class="quiz-feedback" id="fb-6-2"></div>
+            <div class="quiz-question">3. Un formulaire demande obligatoirement : email, téléphone, adresse, date de naissance, ethnie. Quel principe est violé ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q6-3" value="a"> Le principe de minimisation des données (art. 5.1.c RGPD).</label>
+              <label><input type="radio" name="q6-3" value="b"> Le principe de portabilité des données.</label>
+              <label><input type="radio" name="q6-3" value="c"> Aucun, l'utilisateur peut toujours ne pas répondre.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-6-3"></div>
+            <div class="quiz-question">4. Cas concret — Une case "J'accepte les offres partenaires" est pré-cochée. Est-ce valide ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q6-4" value="a"> Oui, l'utilisateur peut toujours la décocher.</label>
+              <label><input type="radio" name="q6-4" value="b"> Non — le consentement doit être actif (opt-in), pas présumé (opt-out).</label>
+              <label><input type="radio" name="q6-4" value="c"> Oui, si c'est mentionné dans les CGU.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-6-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="6">Valider la mission</button>
               <span class="quiz-status" id="status-6"></span>
@@ -713,10 +771,7 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 7 – Dark Patterns & consentement</div>
-              <div class="module-body">
-                Identifiez les manipulations UX (dark patterns) qui biaisent le consentement ou la gestion des cookies
-                sur un site fictif.
-              </div>
+              <div class="module-body">Identifiez les manipulations UX (dark patterns) qui biaisent le consentement ou la gestion des cookies sur un site fictif.</div>
             </div>
             <span class="module-tag">Niveau : 🕵️</span>
           </div>
@@ -725,22 +780,34 @@
             <button class="link-like" data-open-tp="7">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Un dark pattern lié au consentement peut être :
-            </div>
+            <div class="quiz-question">1. Un dark pattern lié au consentement peut être :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q7-1" value="a"> Un bouton “Tout accepter” très visible et “Refuser” caché.</label>
-              <label><input type="radio" name="q7-1" value="b"> Une information claire et équilibrée.</label>
-              <label><input type="radio" name="q7-1" value="c"> Une absence totale de bannière.</label>
+              <label><input type="radio" name="q7-1" value="a"> Un bouton "Tout accepter" très visible et "Refuser" caché ou absent.</label>
+              <label><input type="radio" name="q7-1" value="b"> Une information claire, équilibrée et symétrique.</label>
+              <label><input type="radio" name="q7-1" value="c"> Une absence totale de bannière cookies.</label>
             </div>
-            <div class="quiz-question">
-              2. Pour être valable, le consentement doit être :
-            </div>
+            <div class="quiz-feedback" id="fb-7-1"></div>
+            <div class="quiz-question">2. Pour être valable au sens du RGPD, le consentement doit être :</div>
             <div class="quiz-options">
               <label><input type="radio" name="q7-2" value="a"> Libre, spécifique, éclairé et univoque.</label>
-              <label><input type="radio" name="q7-2" value="b"> Implicite et présumé.</label>
-              <label><input type="radio" name="q7-2" value="c"> Obtenu une fois pour toutes, sans possibilité de retrait.</label>
+              <label><input type="radio" name="q7-2" value="b"> Implicite et présumé par l'utilisation du service.</label>
+              <label><input type="radio" name="q7-2" value="c"> Obtenu une seule fois, sans possibilité de retrait.</label>
             </div>
+            <div class="quiz-feedback" id="fb-7-2"></div>
+            <div class="quiz-question">3. Une bannière cookies sans bouton "Refuser" visible est :</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q7-3" value="a"> Acceptable si le bouton est dans les paramètres avancés.</label>
+              <label><input type="radio" name="q7-3" value="b"> Non conforme — refuser doit être aussi simple qu'accepter (CNIL 2022).</label>
+              <label><input type="radio" name="q7-3" value="c"> Conforme si le site affiche sa politique de confidentialité.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-7-3"></div>
+            <div class="quiz-question">4. Cas concret — "En continuant à naviguer, vous acceptez nos cookies". Est-ce valide ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q7-4" value="a"> Oui, l'utilisateur a été informé et a continué.</label>
+              <label><input type="radio" name="q7-4" value="b"> Non — la simple navigation n'est pas un consentement univoque au sens du RGPD.</label>
+              <label><input type="radio" name="q7-4" value="c"> Oui, si la mention est visible en haut de page.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-7-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="7">Valider la mission</button>
               <span class="quiz-status" id="status-7"></span>
@@ -753,10 +820,7 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 8 – Registre des traitements</div>
-              <div class="module-body">
-                Analysez un registre de traitements fictif, repérez les incohérences et proposez des corrections
-                pour le rendre conforme.
-              </div>
+              <div class="module-body">Analysez un registre de traitements fictif, repérez les incohérences et proposez des corrections pour le rendre conforme.</div>
             </div>
             <span class="module-tag">Niveau : 📘</span>
           </div>
@@ -765,22 +829,34 @@
             <button class="link-like" data-open-tp="8">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Le registre des traitements sert principalement à :
-            </div>
+            <div class="quiz-question">1. Le registre des traitements sert principalement à :</div>
             <div class="quiz-options">
               <label><input type="radio" name="q8-1" value="a"> Remplacer toutes les autres obligations RGPD.</label>
-              <label><input type="radio" name="q8-1" value="b"> Documenter les traitements et démontrer la conformité.</label>
-              <label><input type="radio" name="q8-1" value="c"> Lister uniquement les traitements marketing.</label>
+              <label><input type="radio" name="q8-1" value="b"> Documenter les traitements et démontrer la conformité (accountability).</label>
+              <label><input type="radio" name="q8-1" value="c"> Lister uniquement les traitements à finalité marketing.</label>
             </div>
-            <div class="quiz-question">
-              2. Un registre doit notamment contenir :
-            </div>
+            <div class="quiz-feedback" id="fb-8-1"></div>
+            <div class="quiz-question">2. Un registre doit notamment contenir :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q8-2" value="a"> Les finalités, les catégories de données et de personnes.</label>
-              <label><input type="radio" name="q8-2" value="b"> Uniquement le nom du DPO.</label>
-              <label><input type="radio" name="q8-2" value="c"> Les mots de passe des administrateurs.</label>
+              <label><input type="radio" name="q8-2" value="a"> Les finalités, les catégories de données et de personnes concernées.</label>
+              <label><input type="radio" name="q8-2" value="b"> Uniquement le nom du DPO et de l'entreprise.</label>
+              <label><input type="radio" name="q8-2" value="c"> Les mots de passe des administrateurs système.</label>
             </div>
+            <div class="quiz-feedback" id="fb-8-2"></div>
+            <div class="quiz-question">3. Qui est obligé de tenir un registre des traitements ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q8-3" value="a"> Uniquement les entreprises de plus de 5000 salariés.</label>
+              <label><input type="radio" name="q8-3" value="b"> En principe toutes les organisations — sauf PME sans traitements à risque (art. 30.5).</label>
+              <label><input type="radio" name="q8-3" value="c"> Seulement les entreprises cotées en bourse.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-8-3"></div>
+            <div class="quiz-question">4. Cas concret — Un registre indique "Traitement RH" sans finalité, base légale ni durée. Que manque-t-il ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q8-4" value="a"> Rien, le nom du traitement suffit.</label>
+              <label><input type="radio" name="q8-4" value="b"> La finalité, la base légale, les catégories de données, les destinataires, la durée de conservation.</label>
+              <label><input type="radio" name="q8-4" value="c"> Juste la signature du DPO.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-8-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="8">Valider la mission</button>
               <span class="quiz-status" id="status-8"></span>
@@ -792,11 +868,8 @@
         <article class="module-card" data-module="9">
           <div class="module-header">
             <div>
-              <div class="module-title">Mission 9 – DPIA (Analyse d’impact)</div>
-              <div class="module-body">
-                Évaluez un projet à risque (vidéosurveillance, scoring, géolocalisation) et déterminez si une DPIA
-                est nécessaire, ainsi que les mesures à prévoir.
-              </div>
+              <div class="module-title">Mission 9 – DPIA (Analyse d'impact)</div>
+              <div class="module-body">Évaluez un projet à risque (vidéosurveillance, scoring, géolocalisation) et déterminez si une DPIA est nécessaire, ainsi que les mesures à prévoir.</div>
             </div>
             <span class="module-tag">Niveau : 📊</span>
           </div>
@@ -805,22 +878,34 @@
             <button class="link-like" data-open-tp="9">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Une DPIA est en principe requise lorsque :
-            </div>
+            <div class="quiz-question">1. Une DPIA est en principe requise lorsque :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q9-1" value="a"> Le traitement présente un risque élevé pour les droits et libertés.</label>
-              <label><input type="radio" name="q9-1" value="b"> Le traitement est purement anonyme.</label>
+              <label><input type="radio" name="q9-1" value="a"> Le traitement présente un risque élevé pour les droits et libertés des personnes.</label>
+              <label><input type="radio" name="q9-1" value="b"> Le traitement est purement anonyme et sans impact.</label>
               <label><input type="radio" name="q9-1" value="c"> Le traitement ne concerne que des données papier.</label>
             </div>
-            <div class="quiz-question">
-              2. Une DPIA doit :
-            </div>
+            <div class="quiz-feedback" id="fb-9-1"></div>
+            <div class="quiz-question">2. Une DPIA doit contenir :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q9-2" value="a"> Décrire le traitement, évaluer la nécessité, les risques et les mesures.</label>
-              <label><input type="radio" name="q9-2" value="b"> Être purement marketing.</label>
-              <label><input type="radio" name="q9-2" value="c"> Être gardée secrète vis-à-vis de la CNIL.</label>
+              <label><input type="radio" name="q9-2" value="a"> La description du traitement, l'évaluation de la nécessité, les risques et les mesures.</label>
+              <label><input type="radio" name="q9-2" value="b"> Uniquement une analyse marketing du traitement.</label>
+              <label><input type="radio" name="q9-2" value="c"> Être gardée secrète et non communiquée à la CNIL.</label>
             </div>
+            <div class="quiz-feedback" id="fb-9-2"></div>
+            <div class="quiz-question">3. Parmi ces projets, lequel nécessite très probablement une DPIA ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q9-3" value="a"> Gérer une liste de diffusion interne avec 10 adresses email.</label>
+              <label><input type="radio" name="q9-3" value="b"> Déployer un système de scoring comportemental à grande échelle.</label>
+              <label><input type="radio" name="q9-3" value="c"> Tenir un agenda papier des réunions d'équipe.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-9-3"></div>
+            <div class="quiz-question">4. Cas concret — Votre entreprise veut installer des caméras avec reconnaissance faciale. Que faire en premier ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q9-4" value="a"> Installer les caméras puis faire la DPIA ensuite.</label>
+              <label><input type="radio" name="q9-4" value="b"> Réaliser la DPIA avant déploiement — obligatoire pour la biométrie (art. 35).</label>
+              <label><input type="radio" name="q9-4" value="c"> La DPIA n'est pas nécessaire si les employés sont prévenus.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-9-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="9">Valider la mission</button>
               <span class="quiz-status" id="status-9"></span>
@@ -833,10 +918,7 @@
           <div class="module-header">
             <div>
               <div class="module-title">Mission 10 – Droits des personnes</div>
-              <div class="module-body">
-                Simulez la gestion d’une demande d’accès, de rectification ou d’effacement, et identifiez les
-                bonnes pratiques de réponse.
-              </div>
+              <div class="module-body">Simulez la gestion d'une demande d'accès, de rectification ou d'effacement, et identifiez les bonnes pratiques de réponse.</div>
             </div>
             <span class="module-tag">Niveau : 🧑‍⚖️</span>
           </div>
@@ -845,22 +927,34 @@
             <button class="link-like" data-open-tp="10">Ouvrir le TP →</button>
           </div>
           <div class="quiz">
-            <div class="quiz-question">
-              1. Une personne qui exerce son droit d’accès doit recevoir une réponse :
-            </div>
+            <div class="quiz-question">1. Une personne exerçant son droit d'accès doit recevoir une réponse :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q10-1" value="a"> Dans un délai d’un mois, prolongeable dans certains cas.</label>
-              <label><input type="radio" name="q10-1" value="b"> Uniquement si elle paie des frais.</label>
-              <label><input type="radio" name="q10-1" value="c"> Jamais, ce n’est pas un vrai droit.</label>
+              <label><input type="radio" name="q10-1" value="a"> Dans un délai d'un mois, prolongeable de 2 mois dans certains cas complexes.</label>
+              <label><input type="radio" name="q10-1" value="b"> Uniquement si elle paie des frais de dossier.</label>
+              <label><input type="radio" name="q10-1" value="c"> Jamais — ce n'est pas un droit opposable.</label>
             </div>
-            <div class="quiz-question">
-              2. Le droit à l’effacement :
-            </div>
+            <div class="quiz-feedback" id="fb-10-1"></div>
+            <div class="quiz-question">2. Le droit à l'effacement :</div>
             <div class="quiz-options">
-              <label><input type="radio" name="q10-2" value="a"> Est absolu dans tous les cas.</label>
-              <label><input type="radio" name="q10-2" value="b"> Peut être limité, par exemple en cas d’obligation légale de conservation.</label>
-              <label><input type="radio" name="q10-2" value="c"> Ne s’applique jamais aux données en ligne.</label>
+              <label><input type="radio" name="q10-2" value="a"> Est absolu et s'applique dans tous les cas sans exception.</label>
+              <label><input type="radio" name="q10-2" value="b"> Peut être limité par une obligation légale de conservation ou l'intérêt public.</label>
+              <label><input type="radio" name="q10-2" value="c"> Ne s'applique jamais aux données numériques.</label>
             </div>
+            <div class="quiz-feedback" id="fb-10-2"></div>
+            <div class="quiz-question">3. Face à une demande de droits, vous devez d'abord :</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q10-3" value="a"> Ignorer si la personne n'est pas cliente active.</label>
+              <label><input type="radio" name="q10-3" value="b"> Vérifier l'identité du demandeur, puis traiter dans le délai légal.</label>
+              <label><input type="radio" name="q10-3" value="c"> Demander systématiquement une copie du passeport avant tout traitement.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-10-3"></div>
+            <div class="quiz-question">4. Cas concret — Un client demande l'effacement de son compte, mais le service RH a aussi ses données (contrat de travail). Que faites-vous ?</div>
+            <div class="quiz-options">
+              <label><input type="radio" name="q10-4" value="a"> Effacer toutes les données partout immédiatement.</label>
+              <label><input type="radio" name="q10-4" value="b"> Effacer les données client mais conserver les données RH selon la durée légale.</label>
+              <label><input type="radio" name="q10-4" value="c"> Refuser toute demande concernant les données RH.</label>
+            </div>
+            <div class="quiz-feedback" id="fb-10-4"></div>
             <div class="quiz-actions">
               <button class="btn-quiz" data-validate="10">Valider la mission</button>
               <span class="quiz-status" id="status-10"></span>
@@ -894,25 +988,220 @@
   const XP_PER_MISSION = 100;
 
   const correctAnswers = {
-    1: { 'q1-1': 'b', 'q1-2': 'b' },
-    2: { 'q2-1': 'b', 'q2-2': 'a' },
-    3: { 'q3-1': 'a', 'q3-2': 'a' },
-    4: { 'q4-1': 'b', 'q4-2': 'a' },
-    5: { 'q5-1': 'b', 'q5-2': 'a' },
-    6: { 'q6-1': 'b', 'q6-2': 'a' },
-    7: { 'q7-1': 'a', 'q7-2': 'a' },
-    8: { 'q8-1': 'b', 'q8-2': 'a' },
-    9: { 'q9-1': 'a', 'q9-2': 'a' },
-    10: { 'q10-1': 'a', 'q10-2': 'b' }
+    1: { 'q1-1': 'b', 'q1-2': 'b', 'q1-3': 'b', 'q1-4': 'b' },
+    2: { 'q2-1': 'b', 'q2-2': 'a', 'q2-3': 'a', 'q2-4': 'b' },
+    3: { 'q3-1': 'a', 'q3-2': 'a', 'q3-3': 'b', 'q3-4': 'b' },
+    4: { 'q4-1': 'b', 'q4-2': 'a', 'q4-3': 'b', 'q4-4': 'b' },
+    5: { 'q5-1': 'b', 'q5-2': 'a', 'q5-3': 'b', 'q5-4': 'b' },
+    6: { 'q6-1': 'b', 'q6-2': 'a', 'q6-3': 'a', 'q6-4': 'b' },
+    7: { 'q7-1': 'a', 'q7-2': 'a', 'q7-3': 'b', 'q7-4': 'b' },
+    8: { 'q8-1': 'b', 'q8-2': 'a', 'q8-3': 'b', 'q8-4': 'b' },
+    9: { 'q9-1': 'a', 'q9-2': 'a', 'q9-3': 'b', 'q9-4': 'b' },
+    10: { 'q10-1': 'a', 'q10-2': 'b', 'q10-3': 'b', 'q10-4': 'b' }
   };
 
-  // Contenus TP 5 à 10
+  const feedbacks = {
+    'q1-1': { ok: '✅ Correct — toute info permettant d\'identifier une personne physique est une DCP (art. 4 RGPD).', ko: '❌ Incorrect — une DCP c\'est toute info se rapportant à une personne identifiée ou identifiable, pas seulement des documents papier.' },
+    'q1-2': { ok: '✅ Correct — le NIR (numéro de sécurité sociale) est hautement sensible car il identifie chaque individu de façon unique.', ko: '❌ Incorrect — le numéro de SS est très encadré car il permet une identification précise et unique de chaque individu.' },
+    'q1-3': { ok: '✅ Correct — les opinions politiques sont des données sensibles (art. 9) dont la collecte est en principe interdite.', ko: '❌ Incorrect — les opinions politiques sont une catégorie spéciale (art. 9) : leur collecte est interdite par principe, même si le champ est facultatif.' },
+    'q1-4': { ok: '✅ Correct — l\'ethnie et l\'état de santé sont des données sensibles inutiles pour un achat : violation du principe de minimisation.', ko: '❌ Incorrect — l\'ethnie et l\'état de santé sont des données sensibles sans utilité pour un achat. L\'acceptation des CGU ne les légitime pas.' },
+    'q2-1': { ok: '✅ Correct — même un dépôt privé peut être compromis ou partagé par erreur. Les secrets doivent être dans des variables d\'environnement.', ko: '❌ Incorrect — un dépôt privé reste accessible à tous les collaborateurs et peut être compromis. Les mots de passe ne doivent jamais être dans le code.' },
+    'q2-2': { ok: '✅ Correct — l\'art. 32 RGPD impose des mesures techniques ET organisationnelles proportionnées aux risques identifiés.', ko: '❌ Incorrect — l\'art. 32 RGPD impose d\'agir de façon proactive, pas seulement en réaction à un incident.' },
+    'q2-3': { ok: '✅ Correct — la règle 3-2-1 : 3 copies, sur 2 types de supports différents, dont 1 stockée hors site.', ko: '❌ Incorrect — la règle 3-2-1 signifie 3 copies, 2 supports différents, 1 hors site. C\'est un standard de l\'industrie pour la résilience.' },
+    'q2-4': { ok: '✅ Correct — couper l\'accès immédiatement, documenter l\'incident, qualifier la violation, puis notifier la CNIL sous 72h si nécessaire.', ko: '❌ Incorrect — la priorité est de couper l\'accès et de documenter. Supprimer les preuves ou attendre aggrave la situation juridique.' },
+    'q3-1': { ok: '✅ Correct — art. 33 RGPD : 72h maximum après avoir eu connaissance de la violation pour notifier la CNIL, même si l\'enquête n\'est pas terminée.', ko: '❌ Incorrect — le RGPD impose une notification CNIL dans les 72h (art. 33), même de façon incomplète si nécessaire.' },
+    'q3-2': { ok: '✅ Correct — l\'art. 34 RGPD impose d\'informer les personnes si la violation présente un risque élevé pour leurs droits et libertés.', ko: '❌ Incorrect — l\'obligation d\'informer existe quand le risque est élevé, notamment en cas d\'exposition de données financières.' },
+    'q3-3': { ok: '✅ Correct — c\'est du phishing opportuniste qui exploite la fuite. Aucun organisme légitime ne demande des coordonnées bancaires par e-mail.', ko: '❌ Incorrect — c\'est une tentative de phishing classique. Les banques et organismes légitimes ne demandent jamais de coordonnées par email.' },
+    'q3-4': { ok: '✅ Correct — des IBAN exposés représentent un risque élevé. Double obligation : notifier la CNIL (72h) ET informer les personnes concernées.', ko: '❌ Incorrect — la fermeture de l\'accès ne supprime pas l\'obligation de notifier. La présence d\'IBAN impose notification CNIL ET information aux personnes.' },
+    'q4-1': { ok: '✅ Correct — une cellule de crise RGPD doit impliquer toutes les parties prenantes : technique, juridique, communication et métier.', ko: '❌ Incorrect — une crise RGPD ne se gère pas uniquement en IT. Direction, DPO, communication et métiers sont indispensables.' },
+    'q4-2': { ok: '✅ Correct — l\'accountability (art. 5.2 RGPD) impose de documenter toutes les décisions et actions prises, y compris en situation de crise.', ko: '❌ Incorrect — documenter l\'incident est une obligation d\'accountability (art. 5.2 RGPD), pas une option. C\'est aussi une protection juridique.' },
+    'q4-3': { ok: '✅ Correct — payer ne garantit rien et finance les groupes criminels. L\'ANSSI déconseille formellement le paiement des rançons.', ko: '❌ Incorrect — payer une rançon ne garantit pas la récupération des données, ne résout pas la faille, et finance les attaquants.' },
+    'q4-4': { ok: '✅ Correct — RSSI en premier pour contenir, puis Direction, puis CNIL (72h), puis les personnes si risque élevé, puis l\'assureur cyber.', ko: '❌ Incorrect — alerter les médias en premier causerait une panique. Commencer par l\'interne avant les obligations légales externes.' },
+    'q5-1': { ok: '✅ Correct — l\'art. 28 RGPD exige un contrat écrit définissant l\'objet, la durée, la nature, la finalité et les obligations du sous-traitant.', ko: '❌ Incorrect — un contrat verbal n\'est pas conforme au RGPD. L\'art. 28 impose un contrat écrit avec des clauses précises.' },
+    'q5-2': { ok: '✅ Correct — art. 28.3 RGPD : le sous-traitant doit aider le responsable (droits des personnes, sécurité, notification, DPIA).', ko: '❌ Incorrect — le sous-traitant doit aider le responsable, pas agir dans son propre intérêt commercial.' },
+    'q5-3': { ok: '✅ Correct — à la fin du contrat, le sous-traitant doit restituer ou supprimer les données selon les instructions du responsable.', ko: '❌ Incorrect — conserver ou transférer les données après la fin du contrat est une violation du RGPD.' },
+    'q5-4': { ok: '✅ Correct — cette clause est très insuffisante. Il faut détailler : instructions, sécurité, droits, sous-traitants ultérieurs, durée, restitution.', ko: '❌ Incorrect — la bonne foi ne remplace pas les obligations légales de l\'art. 28 RGPD.' },
+    'q6-1': { ok: '✅ Correct — Privacy by Design = intégrer la protection dès le départ, pas en fin de projet. Exigence de l\'art. 25 RGPD.', ko: '❌ Incorrect — le Privacy by Design impose d\'intégrer la protection dès la conception, pas de l\'ajouter après coup.' },
+    'q6-2': { ok: '✅ Correct — Privacy by Default = paramètres les plus protecteurs par défaut. L\'utilisateur choisit d\'ouvrir, pas de fermer.', ko: '❌ Incorrect — le Privacy by Default exige des paramètres protecteurs par défaut. L\'utilisateur doit agir pour partager plus, pas pour se protéger.' },
+    'q6-3': { ok: '✅ Correct — collecter ethnie et données inutiles viole le principe de minimisation : seules les données nécessaires doivent être collectées (art. 5.1.c).', ko: '❌ Incorrect — le principe de minimisation (art. 5.1.c) est violé quand on collecte des données inutiles à la finalité déclarée.' },
+    'q6-4': { ok: '✅ Correct — une case pré-cochée est un consentement présumé (opt-out) invalide. Le RGPD exige un geste actif (opt-in).', ko: '❌ Incorrect — une case pré-cochée signifie que le consentement est présumé, ce qui est interdit. Le RGPD exige un consentement actif et explicite.' },
+    'q7-1': { ok: '✅ Correct — l\'asymétrie entre Accepter très visible et Refuser caché est un dark pattern typique sanctionné par la CNIL.', ko: '❌ Incorrect — un dark pattern crée une asymétrie qui pousse à accepter. Une information équilibrée est au contraire une bonne pratique.' },
+    'q7-2': { ok: '✅ Correct — art. 7 RGPD : le consentement doit être libre, spécifique, éclairé et univoque (geste actif).', ko: '❌ Incorrect — un consentement implicite ou présumé n\'est pas valide. Le RGPD exige libre, spécifique, éclairé et univoque.' },
+    'q7-3': { ok: '✅ Correct — la CNIL a précisé en 2022 que refuser doit être aussi simple qu\'accepter, accessible au même niveau.', ko: '❌ Incorrect — la CNIL exige depuis 2022 que refuser soit aussi simple qu\'accepter. Un bouton caché dans les paramètres n\'est pas conforme.' },
+    'q7-4': { ok: '✅ Correct — la navigation ne constitue pas un consentement univoque. Un geste positif et délibéré est requis.', ko: '❌ Incorrect — la simple navigation ne vaut pas consentement. Il faut un acte positif et délibéré de l\'utilisateur.' },
+    'q8-1': { ok: '✅ Correct — le registre est l\'outil central de l\'accountability : il prouve que vous connaissez vos traitements et pouvez démontrer votre conformité.', ko: '❌ Incorrect — le registre sert à documenter et prouver la conformité, pas à remplacer les autres obligations.' },
+    'q8-2': { ok: '✅ Correct — art. 30 RGPD : le registre doit contenir les finalités, catégories de données, destinataires, transferts, durées de conservation.', ko: '❌ Incorrect — le registre doit contenir bien plus que le nom du DPO : finalités, catégories de données, destinataires, durées, mesures de sécurité.' },
+    'q8-3': { ok: '✅ Correct — le registre est obligatoire pour presque toutes les organisations. Seule exception (art. 30.5) : PME sans traitements à risque.', ko: '❌ Incorrect — l\'obligation s\'applique à toutes les organisations, pas seulement aux grandes entreprises.' },
+    'q8-4': { ok: '✅ Correct — un registre incomplet n\'est pas conforme. Il faut : finalité, base légale, catégories de données, destinataires et durée de conservation.', ko: '❌ Incorrect — un registre doit être complet pour être utile et conforme. Le nom du traitement seul ne suffit pas.' },
+    'q9-1': { ok: '✅ Correct — l\'art. 35 RGPD impose une DPIA quand le traitement est susceptible d\'engendrer un risque élevé pour les droits et libertés.', ko: '❌ Incorrect — la DPIA est requise en cas de risque élevé, notamment pour la biométrie, le profilage et la surveillance de masse.' },
+    'q9-2': { ok: '✅ Correct — une DPIA décrit le traitement, évalue sa nécessité, identifie les risques et détermine les mesures pour les atténuer.', ko: '❌ Incorrect — une DPIA est un outil de gestion des risques juridique et technique, pas un document marketing ni un document secret.' },
+    'q9-3': { ok: '✅ Correct — le scoring comportemental à grande échelle est explicitement listé dans les critères CNIL comme nécessitant une DPIA systématique.', ko: '❌ Incorrect — une liste de 10 emails ou un agenda papier ne présente pas de risque élevé. Le scoring comportemental à grande échelle, si.' },
+    'q9-4': { ok: '✅ Correct — la biométrie figure dans la liste des traitements nécessitant obligatoirement une DPIA avant déploiement (art. 35 + liste CNIL).', ko: '❌ Incorrect — la reconnaissance faciale est biométrique : la DPIA est obligatoire AVANT le déploiement. Prévenir les employés ne suffit pas.' },
+    'q10-1': { ok: '✅ Correct — art. 12 RGPD : délai d\'un mois, prolongeable de 2 mois supplémentaires en cas de demandes complexes ou nombreuses.', ko: '❌ Incorrect — le droit d\'accès est gratuit et doit être traité dans le mois (prolongeable jusqu\'à 3 mois en cas de complexité).' },
+    'q10-2': { ok: '✅ Correct — le droit à l\'effacement (art. 17) n\'est pas absolu : il peut être limité par des obligations légales de conservation ou l\'intérêt public.', ko: '❌ Incorrect — le droit à l\'effacement existe mais n\'est pas absolu. Il peut être limité par des obligations légales.' },
+    'q10-3': { ok: '✅ Correct — vérifier l\'identité est essentiel pour éviter les fausses demandes, puis traiter dans le délai légal d\'un mois.', ko: '❌ Incorrect — ignorer une demande est illégal. Exiger systématiquement un passeport est disproportionné. La vérification doit être proportionnée.' },
+    'q10-4': { ok: '✅ Correct — les données RH sont soumises à des durées légales de conservation. On ne peut pas les effacer sur simple demande.', ko: '❌ Incorrect — effacer toutes les données RH serait illégal (obligations comptables, sociales). Refuser sans explication est aussi une erreur.' }
+  };
+
   const tpContents = {
+    1: `
+      <h1>Mission 1 – Identité numérique &amp; données à caractère personnel</h1>
+      <div class="tp-box">
+        <h2>🌐 Formulaire fictif à analyser</h2>
+        <p>Vous êtes face à un formulaire en ligne d'un service fictif "MonSuperSite.fr". Identifiez les données à caractère personnel, les données sensibles et les problèmes de conformité.</p>
+        <pre>
+Formulaire d'inscription – MonSuperSite.fr
+──────────────────────────────────────────
+Nom complet *              → Donnée personnelle directe
+Adresse postale *          → Permet de localiser physiquement la personne
+Adresse e-mail *           → Identifiant numérique personnel
+Téléphone portable *       → Contact direct
+Numéro de sécurité sociale * → Donnée hautement sensible — très encadrée
+Situation familiale *      → Donnée personnelle contextuelle
+Opinion politique (facultatif) → DONNÉE SENSIBLE (art. 9) — collecte interdite
+État de santé (facultatif) → DONNÉE DE SANTÉ (art. 9) — collecte très encadrée
+☑ Consentement pré-coché : "J'accepte que mes données soient partagées
+  avec nos partenaires à des fins commerciales et d'analyse."
+        </pre>
+        <p><strong>Votre mission :</strong> listez les problèmes de ce formulaire au regard du RGPD.</p>
+      </div>
+      <div class="tp-box">
+        <h2>✅ Correction &amp; Explications</h2>
+        <ul>
+          <li><strong>Données sensibles collectées sans base légale</strong> : opinions politiques et état de santé sont interdits sauf exceptions (art. 9 RGPD)</li>
+          <li><strong>Consentement invalide</strong> : case pré-cochée = opt-out, interdit — le consentement doit être actif (opt-in)</li>
+          <li><strong>Violation de la minimisation</strong> : NSS, opinion politique et santé sont inutiles pour s'inscrire sur un site</li>
+          <li><strong>Finalité vague</strong> : "partenaires à des fins commerciales et d'analyse" n'est pas suffisamment précis</li>
+          <li><strong>Manque d'information</strong> : pas de durée de conservation, pas de droits des personnes mentionnés</li>
+        </ul>
+        <p class="correct">➡️ Une DCP = toute info permettant d'identifier directement ou indirectement une personne physique (art. 4 RGPD).</p>
+      </div>
+    `,
+    2: `
+      <h1>Mission 2 – Bonnes pratiques &amp; sécurité des données</h1>
+      <div class="tp-box">
+        <h2>🖥️ Intranet fictif à auditer</h2>
+        <p>Vous accédez à l'intranet d'une entreprise fictive. Plusieurs éléments posent problème.</p>
+        <pre>
+// config.js — versionnée dans un dépôt Git partagé
+const DB_PASSWORD    = "Admin123!";
+const API_KEY_PROD   = "sk-prod-xxxxxxxxxxxx";
+const BACKUP_SECRET  = "Backup2024!";
+
+function login(user, pass) {
+  if (user === "admin" && pass === DB_PASSWORD) {
+    console.log("Connexion OK — IP: " + userIP + " — Pass: " + pass);
+  }
+}
+
+// Accès réseau non restreints
+//serveur-rh/RH_Paie/      → Accessible à TOUS les employés
+//serveur-rh/Contrats/     → Accessible à TOUS les employés
+
+// Sauvegardes
+Dernière sauvegarde : il y a 8 mois
+Emplacement : disque dur externe non chiffré sur le bureau du DSI
+
+// Dossier web accessible publiquement
+/backup/users_export.csv
+/backup/hr_salaries_2023.xlsx
+        </pre>
+        <p><strong>Votre mission :</strong> listez toutes les mauvaises pratiques et proposez des corrections.</p>
+      </div>
+      <div class="tp-box">
+        <h2>✅ Correction &amp; Explications</h2>
+        <ul>
+          <li><strong>Secrets en clair dans le code</strong> → utiliser des variables d'environnement (.env) jamais versionnées</li>
+          <li><strong>Log du mot de passe</strong> → ne jamais logger des credentials, même en développement</li>
+          <li><strong>Accès réseau sans restriction</strong> → principe du moindre privilège : accès uniquement aux données nécessaires au rôle</li>
+          <li><strong>Sauvegardes obsolètes et non chiffrées</strong> → règle 3-2-1 : 3 copies, 2 supports, 1 hors site, toutes chiffrées et testées</li>
+          <li><strong>Dossier /backup/ exposé publiquement</strong> → bloquer immédiatement, qualifier la violation RGPD, notifier si nécessaire</li>
+        </ul>
+        <p class="correct">➡️ L'art. 32 RGPD impose des mesures de sécurité adaptées aux risques identifiés — c'est une obligation, pas une option.</p>
+      </div>
+    `,
+    3: `
+      <h1>Mission 3 – Fuite de données &amp; notification</h1>
+      <div class="tp-box">
+        <h2>🚨 Incident simulé — Lundi 08h42</h2>
+        <p>Vous recevez cette alerte de votre équipe sécurité :</p>
+        <pre>
+[ALERTE CRITIQUE]
+Un fichier "clients_export_full.csv" a été détecté en accès public
+sur un bucket S3 depuis 6 jours.
+
+Contenu exposé :
+  id;nom;prenom;email;telephone;ville;IBAN;commentaire
+  1023;Durand;Paul;paul.durand@ex.com;0612345678;Lyon;FR76...; "Client VIP"
+  1045;Martin;Sophie;sophie.martin@ex.com;...  "En congé maternité"
+  1102;Nguyen;Linh;...                         "Incident de paiement"
+
+Nombre de lignes : 45 000 clients
+Accès fermé il y a 2 heures.
+Cause probable : erreur de configuration lors d'un déploiement.
+
+E-mail suspect reçu par un client :
+  Objet : [URGENT] Confirmez vos infos bancaires
+  "Suite à un incident, cliquez ici pour sécuriser votre compte :"
+  https://secure-verification.example-security-check.com
+        </pre>
+      </div>
+      <div class="tp-box">
+        <h2>✅ Correction &amp; Explications</h2>
+        <ul>
+          <li><strong>Violation confirmée</strong> : divulgation non autorisée de données personnelles (art. 4.12 RGPD)</li>
+          <li><strong>Notification CNIL obligatoire</strong> : sous 72h depuis la prise de connaissance (art. 33) — même si l'enquête n'est pas terminée</li>
+          <li><strong>Information des personnes : OUI</strong> — les IBAN exposés créent un risque élevé de fraude bancaire (art. 34)</li>
+          <li><strong>Le mail est du phishing</strong> : exploite la fuite pour soutirer des données bancaires — alerter les clients de ne pas cliquer</li>
+          <li><strong>Actions immédiates</strong> : documenter, analyser l'ampleur, notifier CNIL, informer clients, contacter assureur cyber, corriger la configuration</li>
+        </ul>
+        <p class="correct">➡️ Des IBAN exposés = risque élevé automatique → double obligation : CNIL (72h) + information des personnes concernées.</p>
+      </div>
+    `,
+    4: `
+      <h1>Mission 4 – Cyber-crise &amp; gouvernance RGPD</h1>
+      <div class="tp-box">
+        <h2>🔥 Simulation de crise — 14h30</h2>
+        <p>Une cyber-attaque (ransomware) touche votre organisation. Faites les bons choix :</p>
+        <pre>
+T+0  14:30 — L'équipe IT détecte un chiffrement massif des serveurs RH
+              (200 employés concernés). Messagerie hors ligne.
+T+30 15:00 — Analyse partielle : données clients probablement exfiltrées.
+              Ampleur exacte inconnue.
+
+Message des attaquants :
+  "30 000€ en Bitcoin sous 48h sinon publication des données."
+
+Situation :
+  ✗ Serveurs RH chiffrés
+  ✗ Messagerie hors ligne
+  ✓ Sauvegarde de la veille (non testée)
+  ✓ DPO disponible
+
+Choix possibles :
+  A) Payer la rançon → récupération non garantie, finance les criminels
+  B) Alerter RSSI + Direction → déclencher la cellule de crise
+  C) Isoler les systèmes affectés + conserver les logs
+  D) Effacer les logs pour éviter une amende RGPD
+        </pre>
+      </div>
+      <div class="tp-box">
+        <h2>✅ Correction &amp; Explications</h2>
+        <ul>
+          <li><strong>B + C sont les bonnes premières actions</strong> : alerter la direction et isoler sans effacer les preuves</li>
+          <li><strong>Ne jamais payer</strong> : aucune garantie, finance les attaquants, ne résout pas la faille (ANSSI)</li>
+          <li><strong>Ne jamais effacer les logs</strong> : destruction de preuves, aggravation juridique, violation de l'accountability</li>
+          <li><strong>Ordre d'alerte</strong> : RSSI → Direction → DPO → CNIL (72h) → personnes concernées si risque élevé → assureur</li>
+          <li><strong>Obligations RGPD</strong> : notification CNIL (art. 33) + information des personnes (art. 34 si risque élevé) + documentation (art. 5.2)</li>
+        </ul>
+        <p class="correct">➡️ Une cyber-crise est simultanément une crise de sécurité ET une crise de conformité RGPD. Les deux doivent être gérées en parallèle.</p>
+      </div>
+    `,
     5: `
       <h1>Mission 5 – Contrat de sous-traitance (DPA)</h1>
       <div class="tp-box">
-        <h2>📄 Exercice</h2>
-        <p>Voici un extrait d’un faux contrat de sous‑traitance. Identifiez les éléments manquants ou non conformes.</p>
+        <h2>📄 Contrat fictif à analyser</h2>
+        <p>Voici un extrait d'un contrat de sous-traitance fictif. Identifiez les éléments manquants ou non conformes.</p>
         <pre>
 Article 3 – Obligations du sous-traitant
 Le sous-traitant s'engage à traiter les données pour le compte du client.
@@ -921,138 +1210,179 @@ Aucune autre obligation n'est précisée.
         <p><strong>Questions :</strong></p>
         <ul>
           <li>Quelles obligations essentielles manquent dans ce contrat ?</li>
-          <li>Quelles clauses devraient être ajoutées pour être conforme au RGPD ?</li>
+          <li>Quelles clauses devraient être ajoutées pour être conforme à l'art. 28 RGPD ?</li>
         </ul>
       </div>
       <div class="tp-box">
-        <h2>✔️ Correction & Explications</h2>
-        <p>Un contrat de sous‑traitance doit obligatoirement contenir :</p>
+        <h2>✅ Correction &amp; Explications</h2>
+        <p>Un contrat de sous-traitance (DPA) doit obligatoirement contenir :</p>
         <ul>
           <li><strong>Les instructions documentées</strong> du responsable de traitement</li>
-          <li><strong>La confidentialité</strong> des personnes autorisées</li>
-          <li><strong>Les mesures de sécurité</strong> techniques et organisationnelles</li>
-          <li><strong>L’obligation d’aider</strong> le responsable à respecter ses obligations (droits, sécurité, DPIA…)</li>
-          <li><strong>La gestion des sous‑traitants ultérieurs</strong> (autorisation préalable)</li>
-          <li><strong>La suppression ou restitution</strong> des données en fin de contrat</li>
-          <li><strong>La mise à disposition des audits</strong></li>
+          <li><strong>La confidentialité</strong> des personnes autorisées à traiter</li>
+          <li><strong>Les mesures de sécurité</strong> techniques et organisationnelles (art. 32)</li>
+          <li><strong>L'obligation d'aider</strong> le responsable (droits des personnes, DPIA, sécurité)</li>
+          <li><strong>La gestion des sous-traitants ultérieurs</strong> (autorisation préalable requise)</li>
+          <li><strong>La restitution ou suppression</strong> des données en fin de contrat</li>
+          <li><strong>La mise à disposition des audits</strong> et informations nécessaires</li>
         </ul>
-        <p class="correct">➡️ Le contrat fourni est donc très incomplet et non conforme.</p>
+        <p class="correct">➡️ Ce contrat est non conforme. La bonne foi ne remplace pas les clauses obligatoires de l'art. 28 RGPD.</p>
       </div>
     `,
     6: `
-      <h1>Mission 6 – Privacy by Design</h1>
+      <h1>Mission 6 – Privacy by Design &amp; by Default</h1>
       <div class="tp-box">
-        <h2>🔍 Exercice</h2>
-        <p>Voici une interface volontairement mal conçue :</p>
+        <h2>🔍 Interface fictive à analyser</h2>
+        <p>Voici un formulaire d'inscription volontairement mal conçu :</p>
         <pre>
 Formulaire d'inscription :
 - Email (obligatoire)
 - Téléphone (obligatoire)
 - Adresse postale (obligatoire)
 - Date de naissance (obligatoire)
+- Ethnie (obligatoire)
 - Consentement pré-coché : "J'accepte de recevoir des offres partenaires"
+- Paramètre de confidentialité par défaut : profil PUBLIC
         </pre>
         <p>Identifiez les violations du Privacy by Design / Default.</p>
       </div>
       <div class="tp-box">
-        <h2>✔️ Correction & Explications</h2>
+        <h2>✅ Correction &amp; Explications</h2>
         <ul>
-          <li><strong>Collecte excessive</strong> : trop de données obligatoires</li>
-          <li><strong>Consentement non valide</strong> : case pré‑cochée = interdit</li>
-          <li><strong>Pas de minimisation</strong> : adresse + téléphone + date de naissance = inutile pour une inscription simple</li>
-          <li><strong>Pas de paramètre protecteur par défaut</strong></li>
+          <li><strong>Collecte excessive</strong> : adresse, date de naissance et ethnie ne sont pas nécessaires pour s'inscrire</li>
+          <li><strong>Donnée sensible sans base légale</strong> : l'ethnie est interdite sauf exception (art. 9)</li>
+          <li><strong>Consentement invalide</strong> : case pré-cochée = opt-out interdit. Le RGPD exige un opt-in actif</li>
+          <li><strong>Paramètre public par défaut</strong> : violation du Privacy by Default — les paramètres doivent être protecteurs par défaut</li>
         </ul>
-        <p class="correct">➡️ Le Privacy by Design impose de limiter la collecte et d’avoir des paramètres protecteurs par défaut.</p>
+        <p class="correct">➡️ Art. 25 RGPD : Privacy by Design = protection dès la conception. Privacy by Default = paramètres les plus protecteurs par défaut.</p>
       </div>
     `,
     7: `
-      <h1>Mission 7 – Dark Patterns & Consentement</h1>
+      <h1>Mission 7 – Dark Patterns &amp; Consentement</h1>
       <div class="tp-box">
-        <h2>🕵️ Exercice</h2>
-        <p>Voici une bannière cookies fictive :</p>
+        <h2>🕵️ Bannière cookies fictive à analyser</h2>
         <pre>
-[ACCEPTER TOUT] (bouton vert très visible)
-[Paramètres] (petit lien gris)
-Aucun bouton "Refuser"
+┌─────────────────────────────────────────────────┐
+│  Nous utilisons des cookies pour améliorer       │
+│  votre expérience et personnaliser nos offres.   │
+│                                                  │
+│  [  ACCEPTER TOUT  ] ← bouton vert très visible  │
+│                                                  │
+│  paramètres ← lien gris minuscule en bas         │
+│  (bouton "Refuser" : absent)                     │
+│                                                  │
+│  En continuant à naviguer, vous acceptez.        │
+└─────────────────────────────────────────────────┘
         </pre>
-        <p>Identifiez les dark patterns.</p>
+        <p>Identifiez les dark patterns présents.</p>
       </div>
       <div class="tp-box">
-        <h2>✔️ Correction & Explications</h2>
+        <h2>✅ Correction &amp; Explications</h2>
         <ul>
-          <li><strong>Absence de bouton Refuser</strong> → consentement non libre</li>
-          <li><strong>Asymétrie visuelle</strong> : "Accepter tout" mis en avant</li>
-          <li><strong>Paramètres cachés</strong> : lien discret</li>
+          <li><strong>Asymétrie visuelle</strong> : "Accepter" en vert visible, "Refuser" absent ou caché — non conforme (CNIL 2022)</li>
+          <li><strong>Consentement par navigation invalide</strong> : "En continuant à naviguer" ne constitue pas un geste actif et univoque</li>
+          <li><strong>Absence de bouton Refuser</strong> : refuser doit être aussi simple qu'accepter selon la délibération CNIL n°2022-378</li>
+          <li><strong>Paramètres inaccessibles</strong> : un lien minuscule et gris est un dark pattern de "friction" pour décourager le refus</li>
         </ul>
-        <p class="correct">➡️ Le consentement doit être libre, éclairé, univoque et symétrique.</p>
+        <p class="correct">➡️ Le consentement doit être : Libre (sans pression) — Spécifique — Éclairé — Univoque (geste actif). Art. 7 RGPD.</p>
       </div>
     `,
     8: `
       <h1>Mission 8 – Registre des traitements</h1>
       <div class="tp-box">
-        <h2>📘 Exercice</h2>
-        <p>Voici un extrait d’un registre fictif :</p>
+        <h2>📘 Extrait de registre fictif à corriger</h2>
         <pre>
 Traitement : Gestion RH
 Finalité : Non renseignée
 Données : Nom, prénom, adresse, salaire, numéro de sécurité sociale
 Base légale : Non renseignée
 Durée de conservation : Non renseignée
+Destinataires : Non renseignés
+Mesures de sécurité : Non renseignées
         </pre>
-        <p>Identifiez les problèmes.</p>
+        <p><strong>Que manque-t-il ? Complétez mentalement ce registre.</strong></p>
       </div>
       <div class="tp-box">
-        <h2>✔️ Correction & Explications</h2>
-        <ul>
-          <li><strong>Finalité manquante</strong></li>
-          <li><strong>Base légale manquante</strong></li>
-          <li><strong>Durée de conservation absente</strong></li>
-          <li><strong>Données sensibles</strong> → doivent être justifiées</li>
-        </ul>
-        <p class="correct">➡️ Un registre doit être complet, précis et mis à jour.</p>
+        <h2>✅ Version corrigée du registre</h2>
+        <pre>
+Traitement : Gestion des ressources humaines
+Finalité : Gestion de la paie, suivi des contrats, obligations sociales
+Base légale : Obligation légale (art. 6.1.c) + Exécution du contrat
+Catégories de données : Identité, coordonnées, données bancaires (salaire, IBAN), NSS
+Personnes concernées : Salariés et anciens salariés
+Destinataires : Service comptable, expert-comptable, URSSAF, mutuelle
+Durée de conservation : Bulletins de paie = 5 ans, Contrats = 5 ans après fin
+Mesures de sécurité : Accès restreint RH, chiffrement, sauvegardes chiffrées
+        </pre>
+        <p class="correct">➡️ Art. 30 RGPD : le registre doit être tenu à jour et disponible pour la CNIL sur demande. C'est la colonne vertébrale de l'accountability.</p>
       </div>
     `,
     9: `
-      <h1>Mission 9 – DPIA</h1>
+      <h1>Mission 9 – DPIA (Analyse d'impact sur la protection des données)</h1>
       <div class="tp-box">
-        <h2>📊 Exercice</h2>
-        <p>Projet fictif :</p>
+        <h2>📊 Projets à évaluer</h2>
+        <p>Pour chaque projet, déterminez si une DPIA est nécessaire :</p>
         <pre>
-Installation de caméras avec reconnaissance faciale
-dans les locaux d'une entreprise.
+Projet A : Caméras de vidéosurveillance avec reconnaissance faciale
+           dans l'espace de travail de 200 employés.
+           → Biométrie + surveillance massive = DPIA OBLIGATOIRE
+
+Projet B : Système de scoring comportemental pour évaluer la
+           solvabilité de 50 000 clients (profilage automatisé).
+           → Profilage à grande échelle = DPIA OBLIGATOIRE
+
+Projet C : Application interne de gestion des congés pour 15 employés.
+           → Traitement simple, faible risque = DPIA non requise
+
+Projet D : Géolocalisation en temps réel de 300 livreurs via smartphone.
+           → Surveillance continue = DPIA OBLIGATOIRE
         </pre>
-        <p>La DPIA est‑elle obligatoire ? Pourquoi ?</p>
       </div>
       <div class="tp-box">
-        <h2>✔️ Correction & Explications</h2>
+        <h2>✅ Critères déclencheurs d'une DPIA</h2>
+        <p>Selon l'art. 35 RGPD et la liste CNIL, une DPIA est requise notamment pour :</p>
         <ul>
-          <li><strong>Oui, DPIA obligatoire</strong></li>
-          <li>Traitement à <strong>risque élevé</strong></li>
-          <li>Utilisation de <strong>données biométriques</strong></li>
-          <li>Surveillance systématique</li>
+          <li><strong>Traitement de données biométriques</strong> à des fins d'identification (A)</li>
+          <li><strong>Profilage automatisé</strong> à grande échelle avec effets juridiques (B)</li>
+          <li><strong>Surveillance systématique</strong> à grande échelle (D — géolocalisation continue)</li>
+          <li><strong>Données sensibles</strong> à grande échelle</li>
+          <li><strong>Croisement de données</strong> à grande échelle</li>
         </ul>
-        <p class="correct">➡️ La DPIA est indispensable pour évaluer les risques et mesures.</p>
+        <p class="correct">➡️ La DPIA doit être réalisée AVANT le déploiement. En cas de doute, la CNIL recommande d'en faire une. Mieux vaut prévenir que guérir.</p>
       </div>
     `,
     10: `
       <h1>Mission 10 – Droits des personnes</h1>
       <div class="tp-box">
-        <h2>🧑‍⚖️ Exercice</h2>
-        <p>Une personne demande :</p>
+        <h2>🧑‍⚖️ Demandes fictives à traiter</h2>
         <pre>
-"Je souhaite accéder à toutes les données que vous détenez sur moi."
+Demande 1 — Droit d'accès (SARA)
+"Je souhaite obtenir une copie de toutes les données
+que vous détenez sur moi."
+→ Délai : 1 mois (prolongeable 2 mois si complexe)
+→ Réponse : gratuite, complète, lisible
+
+Demande 2 — Droit à l'effacement (MARC)
+"Supprimez mon compte et toutes mes données."
+→ Données client : à effacer ✓
+→ Données RH (bulletins de paie) : à conserver 5 ans ✗ (obligation légale)
+→ Données comptables : à conserver selon délai légal ✗
+
+Demande 3 — Droit d'opposition (LEA)
+"Je m'oppose au traitement de mes données à des fins marketing."
+→ Opposition au marketing direct : droit absolu, à honorer immédiatement
+→ Opposition à d'autres traitements : à évaluer selon la base légale
         </pre>
-        <p>Comment répondre ? Quel délai ?</p>
       </div>
       <div class="tp-box">
-        <h2>✔️ Correction & Explications</h2>
+        <h2>✅ Synthèse des droits RGPD</h2>
         <ul>
-          <li><strong>Délai : 1 mois</strong> (prolongeable 2 mois si complexe)</li>
-          <li>Réponse claire, complète, compréhensible</li>
-          <li>Vérification d’identité possible</li>
-          <li>Gratuit (sauf demandes manifestement abusives)</li>
+          <li><strong>Droit d'accès (art. 15)</strong> : copie des données sous 1 mois, gratuit</li>
+          <li><strong>Droit de rectification (art. 16)</strong> : corriger les données inexactes</li>
+          <li><strong>Droit à l'effacement (art. 17)</strong> : non absolu — limité par les obligations légales de conservation</li>
+          <li><strong>Droit d'opposition (art. 21)</strong> : absolu pour le marketing direct</li>
+          <li><strong>Droit à la portabilité (art. 20)</strong> : données dans un format structuré et lisible par machine</li>
         </ul>
-        <p class="correct">➡️ Le droit d’accès est un droit fondamental du RGPD.</p>
+        <p class="correct">➡️ Toujours vérifier l'identité du demandeur de façon proportionnée avant de répondre, puis traiter dans le délai légal.</p>
       </div>
     `
   };
@@ -1071,6 +1401,18 @@ dans les locaux d'une entreprise.
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
 
+  function showFeedback(questionKey, isCorrect) {
+    const parts = questionKey.split('-');
+    const missionId = parts[0].replace('q', '');
+    const qNum = parts[1];
+    const fbId = `fb-${missionId}-${qNum}`;
+    const fbEl = document.getElementById(fbId);
+    if (!fbEl || !feedbacks[questionKey]) return;
+    const fb = feedbacks[questionKey];
+    fbEl.textContent = isCorrect ? fb.ok : fb.ko;
+    fbEl.className = 'quiz-feedback ' + (isCorrect ? 'feedback-ok' : 'feedback-ko');
+  }
+
   function updateUI(state) {
     const completedCount = Object.values(state.completed).filter(Boolean).length;
     const progressFill = document.getElementById('progress-fill');
@@ -1082,10 +1424,10 @@ dans les locaux d'une entreprise.
 
     const ratio = completedCount / TOTAL_MISSIONS;
     progressFill.style.width = (ratio * 100) + '%';
-    progressLabel.textContent = `${completedCount} / ${TOTAL_MISSIONS} missions`;
+    progressLabel.textContent = completedCount + ' / ' + TOTAL_MISSIONS + ' missions';
 
     const xp = completedCount * XP_PER_MISSION;
-    xpLevel.textContent = `${xp} / ${TOTAL_MISSIONS * XP_PER_MISSION}`;
+    xpLevel.textContent = xp + ' / ' + (TOTAL_MISSIONS * XP_PER_MISSION);
 
     let rank = 'Débutant';
     if (xp >= 200 && xp < 400) rank = 'Intermédiaire';
@@ -1095,7 +1437,7 @@ dans les locaux d'une entreprise.
 
     cards.forEach(card => {
       const moduleId = parseInt(card.getAttribute('data-module'), 10);
-      const statusEl = document.getElementById(`status-${moduleId}`);
+      const statusEl = document.getElementById('status-' + moduleId);
 
       if (state.completed[moduleId]) {
         card.classList.add('completed');
@@ -1115,7 +1457,7 @@ dans les locaux d'une entreprise.
           card.classList.add('locked');
           card.dataset.locked = 'true';
           if (statusEl && !state.completed[moduleId]) {
-            statusEl.textContent = 'Mission verrouillée – validez d’abord la mission précédente.';
+            statusEl.textContent = 'Mission verrouillée – validez la mission précédente d\'abord.';
             statusEl.classList.remove('ok');
             statusEl.classList.add('ko');
           }
@@ -1140,17 +1482,38 @@ dans les locaux d'une entreprise.
     if (completedCount >= 7) document.querySelector('[data-badge="dark"]').classList.add('active');
     if (completedCount >= 8) document.querySelector('[data-badge="register"]').classList.add('active');
     if (completedCount >= 9) document.querySelector('[data-badge="dpia"]').classList.add('active');
-    if (completedCount >= 10) document.querySelector('[data-badge="ready"]').classList.add('active');
+    if (completedCount >= 10) {
+      document.querySelector('[data-badge="ready"]').classList.add('active');
+      showRecap();
+    }
+  }
+
+  function showRecap() {
+    const existing = document.getElementById('recap-final');
+    if (existing) return;
+    const recap = document.createElement('div');
+    recap.id = 'recap-final';
+    recap.style.cssText = 'max-width:860px;margin:2rem auto;background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid #22c55e;border-radius:18px;padding:30px;text-align:center;';
+    recap.innerHTML = '<h2 style="color:#22c55e;font-size:1.6rem;margin-bottom:12px;">🎉 Félicitations — Parcours complété !</h2>' +
+      '<p style="color:#9ca3af;margin-bottom:16px;">Vous avez validé les 10 missions et obtenu 1000 XP. Vous êtes désormais <strong style="color:#a5b4fc;">RGPD Ready</strong>.</p>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px;">' +
+      '<div style="background:#0b1020;border-radius:12px;padding:16px;"><div style="color:#22c55e;font-size:1.4rem;font-weight:700;">10/10</div><div style="color:#9ca3af;font-size:0.85rem;">Missions validées</div></div>' +
+      '<div style="background:#0b1020;border-radius:12px;padding:16px;"><div style="color:#a5b4fc;font-size:1.4rem;font-weight:700;">1000 XP</div><div style="color:#9ca3af;font-size:0.85rem;">Points obtenus</div></div>' +
+      '<div style="background:#0b1020;border-radius:12px;padding:16px;"><div style="color:#facc15;font-size:1.4rem;font-weight:700;">10 🏅</div><div style="color:#9ca3af;font-size:0.85rem;">Badges débloqués</div></div>' +
+      '</div>' +
+      '<p style="color:#6b7280;font-size:0.85rem;">Thèmes maîtrisés : DCP, Sécurité, Fuite, Crise, DPA, Privacy by Design, Consentement, Registre, DPIA, Droits</p>';
+    const modulesSection = document.getElementById('modules');
+    if (modulesSection) modulesSection.parentNode.insertBefore(recap, modulesSection);
   }
 
   function validateMission(moduleId, state) {
-    const card = document.querySelector(`.module-card[data-module="${moduleId}"]`);
+    const card = document.querySelector('.module-card[data-module="' + moduleId + '"]');
     const locked = card && card.dataset.locked === 'true';
-    const statusEl = document.getElementById(`status-${moduleId}`);
+    const statusEl = document.getElementById('status-' + moduleId);
 
     if (locked) {
       if (statusEl) {
-        statusEl.textContent = 'Mission verrouillée – validez d’abord la mission précédente.';
+        statusEl.textContent = 'Mission verrouillée – validez la mission précédente d\'abord.';
         statusEl.classList.remove('ok');
         statusEl.classList.add('ko');
       }
@@ -1159,18 +1522,19 @@ dans les locaux d'une entreprise.
 
     const answers = correctAnswers[moduleId];
     let allGood = true;
+
     Object.keys(answers).forEach(q => {
       const expected = answers[q];
-      const selected = document.querySelector(`input[name="${q}"]:checked`);
-      if (!selected || selected.value !== expected) {
-        allGood = false;
-      }
+      const selected = document.querySelector('input[name="' + q + '"]:checked');
+      const isCorrect = selected && selected.value === expected;
+      if (!isCorrect) allGood = false;
+      showFeedback(q, isCorrect);
     });
 
     if (!statusEl) return state;
 
     if (!allGood) {
-      statusEl.textContent = 'Certaines réponses sont incorrectes. Réessayez.';
+      statusEl.textContent = 'Certaines réponses sont incorrectes — lisez les explications ci-dessus et réessayez.';
       statusEl.classList.remove('ok');
       statusEl.classList.add('ko');
       return state;
