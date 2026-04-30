@@ -1,48 +1,14 @@
-version: "3.8"
+version: "3.9"
 
 services:
-
-  portail-rgpd:
-    image: nginx:alpine
-    container_name: portail-rgpd
+  rgpd-training:
+    build: .
+    container_name: rgpd-training
     ports:
-      - "9000:80"
-    volumes:
-      - ./portail:/usr/share/nginx/html:ro
+      - "8080:80"
     restart: unless-stopped
-
-  tp1-identite-numerique:
-    image: nginx:alpine
-    container_name: tp1-identite-numerique
-    ports:
-      - "9001:80"
-    volumes:
-      - ./tp1-identite:/usr/share/nginx/html:ro
-    restart: unless-stopped
-
-  tp2-bonnes-pratiques:
-    image: nginx:alpine
-    container_name: tp2-bonnes-pratiques
-    ports:
-      - "9002:80"
-    volumes:
-      - ./tp2-bonnes-pratiques:/usr/share/nginx/html:ro
-    restart: unless-stopped
-
-  tp3-fuite-donnees:
-    image: nginx:alpine
-    container_name: tp3-fuite-donnees
-    ports:
-      - "9003:80"
-    volumes:
-      - ./tp3-fuite:/usr/share/nginx/html:ro
-    restart: unless-stopped
-
-  tp4-cybercrise:
-    image: nginx:alpine
-    container_name: tp4-cybercrise
-    ports:
-      - "9004:80"
-    volumes:
-      - ./tp4-cybercrise:/usr/share/nginx/html:ro
-    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
